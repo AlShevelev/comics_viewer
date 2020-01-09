@@ -8,6 +8,6 @@
 
     <!-- Action Bar Styles -->
     <style name="AppTheme.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="background">@raw/actionbar_bcg</item>
+        <item name="background">@drawable/bcg_action_bar</item>
     </style>
 </resources>

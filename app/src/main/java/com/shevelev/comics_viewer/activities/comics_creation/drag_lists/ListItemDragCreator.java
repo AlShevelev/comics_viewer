@@ -62,7 +62,7 @@ public class ListItemDragCreator implements IListItemDragCreatorImages
     public Drawable getStubPageImage()
     {
         if(stubPageImage==null)
-            stubPageImage = calculatePageImage(BitmapsHelper.loadFromRaw(R.raw.unloaded_page));
+            stubPageImage = calculatePageImage(BitmapsHelper.loadFromRaw(R.drawable.img_unloaded_page));
         return stubPageImage;
     }
 

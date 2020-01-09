@@ -4,12 +4,12 @@
       tools:context="com.shevelev.comics_viewer.activities.comics_creation.SortPagesActivity" >
 <item android:id="@+id/action_accept"
       android:title="@string/action_accept"
-      android:icon="@drawable/ic_check_white_48dp"
+      android:icon="@drawable/ic_check_white"
       android:orderInCategory="100"
       app:showAsAction="always" />
 <item android:id="@+id/action_close"
       android:title="@string/action_close"
-      android:icon="@drawable/ic_clear_white_48dp"
+      android:icon="@drawable/ic_clear_white"
       android:orderInCategory="120"
       app:showAsAction="always"/>
 </menu>

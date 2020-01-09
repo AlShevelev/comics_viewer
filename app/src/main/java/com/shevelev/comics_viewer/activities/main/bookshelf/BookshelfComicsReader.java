@@ -79,7 +79,7 @@ public class BookshelfComicsReader  extends AsyncTask<Void, Void, Void>
         if(comics.isNeedShowPrivateCover)
         {
             if(privateCover==null)
-                privateCover = CoverCreator.create(BitmapsHelper.loadFromRaw(R.raw.private_comics_cover), previewCreator);
+                privateCover = CoverCreator.create(BitmapsHelper.loadFromRaw(R.drawable.img_private_comics_cover), previewCreator);
 
             return privateCover;
         }

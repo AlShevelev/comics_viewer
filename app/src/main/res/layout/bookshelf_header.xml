@@ -3,13 +3,13 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="@dimen/bookcase_header_height"
-              android:background="@drawable/bookcase_header_bcg">
+              android:background="@drawable/bcg_bookcase_header">
 
     <ImageView
         android:layout_width="@dimen/bookcase_header_ornament_size"
         android:layout_height="@dimen/bookcase_header_ornament_size"
         android:id="@+id/ornamentRight"
-        android:src="@raw/bookcase_header_ornament1"
+        android:src="@drawable/img_bookcase_header_ornament1"
         android:layout_gravity="left"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
@@ -19,7 +19,7 @@
         android:layout_width="@dimen/bookcase_header_ornament_size"
         android:layout_height="@dimen/bookcase_header_ornament_size"
         android:id="@+id/ornamentLeft"
-        android:src="@raw/bookcase_header_ornament2"
+        android:src="@drawable/img_bookcase_header_ornament2"
         android:layout_weight="0"
         android:layout_marginLeft="@dimen/bookcase_header_ornament_margin"
         android:layout_centerVertical="true"/>
