@@ -12,13 +12,6 @@ import java.util.List;
 
 public class CollectionsHelper
 {
-    /**
-     * Возвращает true, если хотя бы для одного элемента коллекции выполняется условие
-     * @param source
-     * @param condition
-     * @param <T>
-     * @return
-     */
     public static <T> boolean any(List<T> source, Predicate<T> condition)
     {
         if(source==null)
@@ -32,10 +25,6 @@ public class CollectionsHelper
 
     /**
      * Return filtered collection
-     * @param source
-     * @param condition
-     * @param <T>
-     * @return
      */
     public static <T> List<T> where(List<T> source, Predicate<T> condition)
     {
@@ -56,14 +45,6 @@ public class CollectionsHelper
         return result;
     }
 
-    /**
-     * Преобразует один список в другой
-     * @param source - начальный список
-     * @param func - функциональный интерфейс
-     * @param <TSource> - исходный тип
-     * @param <TTarget> - целевой тип
-     * @return - результат
-     */
     public static <TSource, TTarget> List<TTarget> transform(List<TSource> source, IFuncOneArg<TSource, TTarget> func)
     {
         return transform(source, func, null);
@@ -71,12 +52,7 @@ public class CollectionsHelper
 
     /**
      * Transfrom one list to another (wiht cancelaction)
-     * @param source - начальный список
-     * @param func - функциональный интерфейс
      * @param cancelationToken - cancelation token to abort operation in other thread
-     * @param <TSource> - исходный тип
-     * @param <TTarget> - целевой тип
-     * @return - результат
      */
     public static <TSource, TTarget> List<TTarget> transform(List<TSource> source, IFuncOneArg<TSource, TTarget> func, ICancelationTokenRead cancelationToken)
     {
@@ -86,7 +62,7 @@ public class CollectionsHelper
         if(source==null)
             return null;
 
-        ArrayList<TTarget> result=new ArrayList<TTarget>(source.size());
+        ArrayList<TTarget> result= new ArrayList<>(source.size());
 
         for (TSource s : source)
         {
@@ -113,10 +89,6 @@ public class CollectionsHelper
 
     /**
      * Returns first items for which condition is true, or null if such item is not exists
-     * @param source
-     * @param condition
-     * @param <T>
-     * @return
      */
     public static <T> T first(List<T> source, Predicate<T> condition)
     {
@@ -131,10 +103,6 @@ public class CollectionsHelper
 
     /**
      * Returns index of first items for which condition is true, or null if such item is not exists
-     * @param source
-     * @param condition
-     * @param <T>
-     * @return
      */
     public static <T> Integer firstIndexOf(List<T> source, Predicate<T> condition)
     {
@@ -164,8 +132,6 @@ public class CollectionsHelper
      * @param source source collection
      * @param comparator comparator to sort
      * @param reverse should pass True if we need reverse sort
-     * @param <T>
-     * @return
      */
     public static <T> List<T> sort(List<T> source, Comparator<T> comparator, boolean reverse)
     {
@@ -181,11 +147,6 @@ public class CollectionsHelper
 
     /**
      * Take *quantityToTake* items from collection and skip *quantityToSkip*
-     * @param source
-     * @param quantityToTake
-     * @param quantityToSkip
-     * @param <T>
-     * @return
      */
     public static <T> List<T> take(List<T> source, int quantityToTake, int quantityToSkip)
     {
