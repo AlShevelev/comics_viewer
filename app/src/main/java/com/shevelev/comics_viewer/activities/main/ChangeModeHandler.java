@@ -26,7 +26,7 @@ public class ChangeModeHandler implements IChangeModeHandlerView
         this.viewMode = viewMode;
         this.modeChanged = modeChanged;
 
-        Resources resources= App.getContext().getResources();
+        Resources resources= App.Main.getContext().getResources();
         activeColor = resources.getColor(R.color.bookcase_header_label_active);
         inactiveColor = resources.getColor(R.color.bookcase_header_label_inactive);
     }

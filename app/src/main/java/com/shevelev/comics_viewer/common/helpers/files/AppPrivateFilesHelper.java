@@ -29,7 +29,7 @@ public class AppPrivateFilesHelper
             sourceStream = new FileReader(sourceAbsoluteFileName);
             if(sourceStream.getState() == FileReader.State.ReadyToRead)
             {
-                destinationStream = App.getContext().openFileOutput(destinationFileName, Context.MODE_PRIVATE);
+                destinationStream = App.Main.getContext().openFileOutput(destinationFileName, Context.MODE_PRIVATE);
 
                 do
                 {
@@ -81,7 +81,7 @@ public class AppPrivateFilesHelper
         FileOutputStream destinationStream = null;
         try
         {
-            destinationStream = App.getContext().openFileOutput(destinationFileName, Context.MODE_PRIVATE);
+            destinationStream = App.Main.getContext().openFileOutput(destinationFileName, Context.MODE_PRIVATE);
             bitmap.compress(compressFormat, quality, destinationStream);
             return true;
         }
@@ -115,7 +115,7 @@ public class AppPrivateFilesHelper
         ByteArrayOutputStream destinationStream=null;
         try
         {
-            sourceStream = new FileReader(App.getContext().openFileInput(sourceFileName));
+            sourceStream = new FileReader(App.Main.getContext().openFileInput(sourceFileName));
             if(sourceStream.getState() == FileReader.State.ReadyToRead)
             {
                 destinationStream=new ByteArrayOutputStream((int)sourceStream.getSize());
@@ -155,7 +155,7 @@ public class AppPrivateFilesHelper
      */
     public static boolean delete(String fileName)
     {
-        return App.getContext().deleteFile(fileName);
+        return App.Main.getContext().deleteFile(fileName);
     }
 
     /**
@@ -164,6 +164,6 @@ public class AppPrivateFilesHelper
      */
     public static String getFullName(String fileName)
     {
-        return App.getContext().getFilesDir().getAbsolutePath()+"/"+fileName;
+        return App.Main.getContext().getFilesDir().getAbsolutePath()+"/"+fileName;
     }
 }

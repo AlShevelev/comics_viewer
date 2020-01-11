@@ -49,7 +49,7 @@ public abstract class FilterBase implements IComicsFilter
             targetComics.name = sourceComics.name;
 
             targetComics.displayName  = isPrivateComicsHidden & sourceComics.isPrivate ?
-                    String.format(App.getResourceString(R.string.private_comics_title), nameCounter++) :
+                    String.format(App.Main.getResourceString(R.string.private_comics_title), nameCounter++) :
                     sourceComics.name;
 
             targetComics.coverFilename = sourceComics.coverFilename;

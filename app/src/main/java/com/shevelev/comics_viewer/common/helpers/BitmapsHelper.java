@@ -66,7 +66,7 @@ public class BitmapsHelper
 
     public static Bitmap loadFromRaw(int rawResourceId)
     {
-        return BitmapFactory.decodeStream(App.getContext().getResources().openRawResource(rawResourceId));
+        return BitmapFactory.decodeStream(App.Main.getContext().getResources().openRawResource(rawResourceId));
     }
 
     public static Bitmap scale(Bitmap bmp, Size targetSize)

@@ -31,7 +31,7 @@ public class MainOptionsActivity extends Activity
     public static void start(Activity parentActivity)
     {
         Intent intent = new Intent(parentActivity, MainOptionsActivity.class);
-        parentActivity.startActivityForResult(intent, ActivityCodes.MainOptionsActivity);
+        parentActivity.startActivityForResult(intent, ActivityCodes.MAIN_OPTIONS);
     }
 
     /**
@@ -39,7 +39,7 @@ public class MainOptionsActivity extends Activity
      */
     public static boolean parseResult(Intent data)
     {
-        return data.getBooleanExtra(ActivityResultCodes.isPasswordEntered, false);
+        return data.getBooleanExtra(ActivityResultCodes.IS_PASSWORD_ENTERED, false);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class MainOptionsActivity extends Activity
         boolean passwordEnteredOnFinish = OptionsFacade.ShortLivings.get(OptionsKeys.PasswordEntered)!=null;
 
         Intent intent = new Intent();
-        intent.putExtra(ActivityResultCodes.isPasswordEntered, !passwordEnteredOnStart && passwordEnteredOnFinish);         // User enters or creates password
+        intent.putExtra(ActivityResultCodes.IS_PASSWORD_ENTERED, !passwordEnteredOnStart && passwordEnteredOnFinish);         // User enters or creates password
         setResult(RESULT_OK, intent);
 
         super.onBackPressed();              // call finish() and close acivity

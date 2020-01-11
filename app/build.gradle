@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 apply from: "$rootDir/dependencies.gradle"
 
 buildscript {
@@ -41,6 +46,12 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation "com.android.support:appcompat-v7:$android.app_compat"
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin.main"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin.main"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin.coroutines"
 
     compile files('libs/activeandroid-3.0.jar')
 }

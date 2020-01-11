@@ -82,10 +82,10 @@ public class CreateComicsOperation extends ComicsOperationBase
      */
     private void onComicsNameChoose(String name, boolean isPrivateComics, String pathToFolder)
     {
-        List<DiskItemInfo> images= PagesStartSorter.Sort(pathToFolder);
+        List<DiskItemInfo> images= PagesStartSorter.INSTANCE.sort(pathToFolder);
 
         comicsCreator=new ComicsCreator(ComicsCreator.tag, name, isPrivateComics, images, ScreenHelper.getClientSize(context));
 
-        SortPagesActivity.start(context, pathToFolder);                // Start pages sorting
+        SortPagesActivity.Companion.start(context, pathToFolder);                // Start pages sorting
     }
 }

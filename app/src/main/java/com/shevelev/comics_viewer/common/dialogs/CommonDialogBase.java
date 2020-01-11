@@ -50,7 +50,7 @@ abstract class CommonDialogBase<TI, TO>
 
     protected String getStringFromResources(int resourceId)
     {
-        return App.getContext().getString(resourceId);
+        return App.Main.getContext().getString(resourceId);
     }
 
     private AlertDialog create()

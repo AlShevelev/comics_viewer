@@ -25,7 +25,7 @@ public class ToastsHelper
 
     public static void Show(CharSequence text, Duration duration, Position position)
     {
-        Toast toast=Toast.makeText(App.getContext(), text, duration==Duration.Long ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
+        Toast toast=Toast.makeText(App.Main.getContext(), text, duration==Duration.Long ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
 
         int gravity=0;
         switch (position){
@@ -41,7 +41,7 @@ public class ToastsHelper
 
     public static void Show(int textResId,  Duration duration, Position position)
     {
-        Show(App.getContext().getResources().getText(textResId), duration, position);
+        Show(App.Main.getContext().getResources().getText(textResId), duration, position);
     }
 
     public static void Show(int textResId,  Position position) {

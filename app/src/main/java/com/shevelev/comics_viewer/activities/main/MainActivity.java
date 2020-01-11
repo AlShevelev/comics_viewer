@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements IRheaActivity, IO
         {
             case R.id.action_add:
             {
-                ChooseFolderActivity.start(this);                   // Choose folder with comics
+                ChooseFolderActivity.Companion.start(this);                   // Choose folder with comics
                 return true;
             }
             case R.id.action_menu:
@@ -157,10 +157,16 @@ public class MainActivity extends AppCompatActivity implements IRheaActivity, IO
 
         switch (requestCode)
         {
-            case ActivityCodes.ChooseFolderActivity: comicsWorkingFacade.create.preStart(ChooseFolderActivity.parseResult(data)); break;        // Folder was choosen - start to createFromFile comics
-            case ActivityCodes.SortPagesActivity: comicsWorkingFacade.create.start(SortPagesActivity.parseResult(data)); break;     // Start create comics
-            case ActivityCodes.CurlActivity: comicsWorkingFacade.view.complete(CurlActivity.parseResult(data)); break;      // Complete view comics
-            case ActivityCodes.MainOptionsActivity:
+            case ActivityCodes.CHOOSE_FOLDER:
+                comicsWorkingFacade.create.preStart(ChooseFolderActivity.Companion.parseResult(data)); break;        // Folder was choosen - start to createFromFile comics
+
+            case ActivityCodes.SORT_PAGES:
+                comicsWorkingFacade.create.start(SortPagesActivity.Companion.parseResult(data)); break;     // Start create comics
+
+            case ActivityCodes.CURL:
+                comicsWorkingFacade.view.complete(CurlActivity.parseResult(data)); break;      // Complete view comics
+
+            case ActivityCodes.MAIN_OPTIONS:
             {
                 if(MainOptionsActivity.parseResult(data))                         // Only if user enter password
                     updateBooksList(null);

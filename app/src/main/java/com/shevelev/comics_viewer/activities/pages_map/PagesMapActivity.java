@@ -44,7 +44,7 @@ public class PagesMapActivity extends AppCompatActivity
         b.putLong(ActivityParamCodes.IdOfComics, comicsId);
         intent.putExtras(b);
 
-        parentActivity.startActivityForResult(intent, ActivityCodes.PagesMapActivity);
+        parentActivity.startActivityForResult(intent, ActivityCodes.PAGES_MAP);
     }
 
     /**
@@ -52,7 +52,7 @@ public class PagesMapActivity extends AppCompatActivity
      */
     public static int parseResult(Intent data)
     {
-        return data.getIntExtra(ActivityResultCodes.activePageIndex, 0);
+        return data.getIntExtra(ActivityResultCodes.ACTIVE_PAGE_INDEX, 0);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class PagesMapActivity extends AppCompatActivity
     private void prepareToFinish()
     {
         Intent intent = new Intent();
-        intent.putExtra(ActivityResultCodes.activePageIndex, activePageIndex);
+        intent.putExtra(ActivityResultCodes.ACTIVE_PAGE_INDEX, activePageIndex);
         setResult(RESULT_OK, intent);
     }
 }

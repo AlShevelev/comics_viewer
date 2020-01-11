@@ -37,7 +37,7 @@ public class CurlActivity extends Activity
 		b.putLong(ActivityParamCodes.IdOfComics, comicsId);
 		intent.putExtras(b);
 
-		parentActivity.startActivityForResult(intent, ActivityCodes.CurlActivity);
+		parentActivity.startActivityForResult(intent, ActivityCodes.CURL);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class CurlActivity extends Activity
 	 */
 	public static long parseResult(Intent data)
 	{
-		return data.getLongExtra(ActivityResultCodes.idOfComics, 0);
+		return data.getLongExtra(ActivityResultCodes.ID_OF_COMICS, 0);
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class CurlActivity extends Activity
 	public void onBackPressed()
 	{
 		Intent intent = new Intent();
-		intent.putExtra(ActivityResultCodes.idOfComics, comicsId);
+		intent.putExtra(ActivityResultCodes.ID_OF_COMICS, comicsId);
 		setResult(RESULT_OK, intent);
 
 		super.onBackPressed();              // call finish() and close acivity
@@ -158,7 +158,7 @@ public class CurlActivity extends Activity
 		if (data == null || resultCode!=RESULT_OK)
 			return;
 
-		if(requestCode==ActivityCodes.PagesMapActivity)
+		if(requestCode==ActivityCodes.PAGES_MAP)
 			curlView.setCurrentPageIndex(PagesMapActivity.parseResult(data));
 	}
 }

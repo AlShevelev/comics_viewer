@@ -92,7 +92,7 @@ public class CoverCreator
     {
         Paint paint = new Paint();          // draw shadow - in separate method
 
-        paint.setColor(App.getContext().getResources().getColor(R.color.bookcase_cover_shadow));
+        paint.setColor(App.Main.getContext().getResources().getColor(R.color.bookcase_cover_shadow));
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
 
