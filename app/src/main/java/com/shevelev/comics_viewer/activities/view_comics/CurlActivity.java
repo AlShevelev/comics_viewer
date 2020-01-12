@@ -136,7 +136,7 @@ public class CurlActivity extends Activity
 
 	private void processPages()
 	{
-		PagesMapActivity.start(this, comicsId);				// Start view pages
+		PagesMapActivity.Companion.start(this, comicsId);				// Start view pages
 	}
 
 	@Override
@@ -159,6 +159,6 @@ public class CurlActivity extends Activity
 			return;
 
 		if(requestCode==ActivityCodes.PAGES_MAP)
-			curlView.setCurrentPageIndex(PagesMapActivity.parseResult(data));
+			curlView.setCurrentPageIndex(PagesMapActivity.Companion.parseResult(data));
 	}
 }

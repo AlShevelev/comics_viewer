@@ -1,45 +1,42 @@
-package com.shevelev.comics_viewer.activities.main.one_comics_working;
+package com.shevelev.comics_viewer.activities.main.one_comics_working
 
-import com.shevelev.comics_viewer.activities.main.comics_filters.ComicsViewMode;
+import com.shevelev.comics_viewer.activities.main.comics_filters.ComicsViewMode
 
 /**
  * Operation for working with one comics
  */
-public interface IOneComicsActivity
-{
+interface IOneComicsActivity {
     /**
      * Read comics and put them on the shelfs - in background thread
      * @param idOfComicsToScroll - id of comics to scroll to (if null - without scrolling)
      */
-    void updateBooksList(Long idOfComicsToScroll);
-
-    /**
-     * Turn on/off user actios
-     * @param isLocked if true - userActions locked
-     */
-    void setUserActionsLock(boolean isLocked);
+    fun updateBooksList(idOfComicsToScroll: Long?)
 
     /**
      * Is user actios turn on/off
      * @return true - actions locked
      */
-    boolean isUserActionsLock();
+    /**
+     * Turn on/off user actios
+     * @param isLocked if true - userActions locked
+     */
+    var isUserActionsLock: Boolean
 
     /**
      * Show/hide progress
      * @param isVisible if true progress'll showed
      */
-    void setProgressState(boolean isVisible);
+    fun setProgressState(isVisible: Boolean)
 
     /**
      * Update text of progress control
      * @param text
      */
-    void updateProgressText(String text);
+    fun updateProgressText(text: String)
 
     /**
      * Set view mode for bookcase (all comics or only recent)
      * @param viewMode
      */
-    void setViewMode(ComicsViewMode viewMode);
+    fun setViewMode(viewMode: ComicsViewMode)
 }
