@@ -69,7 +69,7 @@ class PageControl(
         val pageText = findViewById<View>(R.id.pageText) as TextView
         pageText.text = String.format(activity.resources.getString(R.string.pageTitle), number)
         val coverImage = findViewById<View>(R.id.pageImage) as ImageView
-        val bmp = BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(pageInfo.previewFileName))
+        val bmp = BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(pageInfo.previewFileName!!))
         coverImage.setImageBitmap(bmp)
         val zoomIcon = findViewById<View>(R.id.pageZoomIcon) as ImageView
         zoomIcon.setImageResource(R.drawable.ic_zoom_in_yellow_48dp)

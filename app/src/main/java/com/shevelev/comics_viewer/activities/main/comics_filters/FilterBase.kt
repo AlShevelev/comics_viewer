@@ -13,15 +13,21 @@ import java.util.*
 abstract class FilterBase(private val comicsSortInfo: ComicsSortInfo?, private val isPrivateComicsHidden: Boolean) : IComicsFilter {
     override val comics: List<BookcaseComics>
         get() {
-            var resultDraft = comicsList
+            var resultDraft = comicsList.toMutableList()
             if (comicsSortInfo != null) {
-                resultDraft = CollectionsHelper.sort(resultDraft, comicsSortInfo.comparator, comicsSortInfo.isReverse)
+                resultDraft = resultDraft.sortedWith(comicsSortInfo.comparator).toMutableList()
+
+                if(comicsSortInfo.isReverse) {
+                    resultDraft.reverse()
+                }
+
+                CollectionsHelper.sort(resultDraft, comicsSortInfo.comparator, comicsSortInfo.isReverse)
                 return transform(resultDraft)
             }
             return listOf()
         }
 
-    protected abstract val comicsList: List<Comics>?
+    protected abstract val comicsList: List<Comics>
 
     private fun transform(source: List<Comics>): List<BookcaseComics> {
         val result = ArrayList<BookcaseComics>(source.size)

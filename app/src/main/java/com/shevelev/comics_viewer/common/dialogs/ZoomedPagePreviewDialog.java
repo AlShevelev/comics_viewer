@@ -56,13 +56,13 @@ public class ZoomedPagePreviewDialog
 
     private Bitmap createBitmap()
     {
-        Bitmap source=BitmapsHelper.loadFromFile(fullPathToImageFile);
+        Bitmap source=BitmapsHelper.INSTANCE.loadFromFile(fullPathToImageFile);
         Size sourceSize=new Size(source.getWidth(), source.getHeight());
 
         Size targetSize=dialogSize.inscribe(sourceSize);
 
         imageSize = targetSize;
-        Bitmap bmp=BitmapsHelper.scale(source, targetSize);
+        Bitmap bmp=BitmapsHelper.INSTANCE.scale(source, targetSize);
 
         return bmp;
     }

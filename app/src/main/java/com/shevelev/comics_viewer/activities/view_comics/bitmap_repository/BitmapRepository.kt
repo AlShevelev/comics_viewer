@@ -38,7 +38,7 @@ class BitmapRepository(pages: List<Page>) : IBitmapRepository {
     }
 
     private fun loadBitmap(index: Int, viewAreaWidth: Int, viewAreaHeight: Int): Bitmap {
-        val fullName = AppPrivateFilesHelper.getFullName(pages[index].fileName)
+        val fullName = AppPrivateFilesHelper.getFullName(pages[index].fileName!!)
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(fullName, options) // Read image size only

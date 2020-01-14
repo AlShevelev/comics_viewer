@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.folders.file_system.disk_items
 
+import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.DiskItemInfo
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
@@ -20,16 +21,18 @@ class DiskItemsNormalProcessor(private val path: String) : IDiskItemsProcessor {
     override val diskItems: List<DiskItemInfo>
         get() = try {
             val folderInfo = FolderInfo(path)
-            val folders = CollectionsHelper.transform(folderInfo.subFolders
-            ) { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) } // Cut long names
 
-            val files = CollectionsHelper.transform(folderInfo.files
-            ) { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) }
+            // Cut long names
+            val folders = CollectionsHelper.transform(folderInfo.subFolders,
+                IFuncOneArg { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) })
 
-            val images = CollectionsHelper.transform(folderInfo.images
-            ) { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) }
+            val files = CollectionsHelper.transform(folderInfo.files,
+                IFuncOneArg { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) })
 
-            mergeLists(folders, files, images)
+            val images = CollectionsHelper.transform(folderInfo.images,
+                IFuncOneArg{ t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) })
+
+            mergeLists(folders!!, files!!, images!!)
         } catch (ex: Exception) {
             ex.printStackTrace()
             ArrayList() // empty list

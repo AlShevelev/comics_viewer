@@ -15,7 +15,7 @@ import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderI
  */
 class ChooseComicsName(
     private val context: Activity,
-    private val nameChoose: IActionThreeArgs<String, Boolean, String?>?
+    private val nameChoose: IActionThreeArgs<String, Boolean, String>?
 ) {
     private lateinit var pathToFolder: String
     /**

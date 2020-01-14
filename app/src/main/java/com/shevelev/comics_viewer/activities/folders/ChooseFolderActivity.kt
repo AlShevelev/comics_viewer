@@ -22,6 +22,7 @@ import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.DiskItemInfo
 import java.util.*
+import java.util.function.Predicate
 
 class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
 
@@ -233,7 +234,7 @@ class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
      */
     override fun FolderCheckChanged(id: Int, isChecked: Boolean) {
         menuManager!!.setAcceptVisible(isChecked) // Show or hide accept button
-        choosedDiskItem = if (isChecked) CollectionsHelper.first(diskItems) { i: DiskItemInfo? -> i!!.id == id } else null
+        choosedDiskItem = if (isChecked) CollectionsHelper.first(diskItems, Predicate { i: DiskItemInfo? -> i!!.id == id })  else null
     }
 
     /**
@@ -242,7 +243,7 @@ class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
      * @param folderWithImages true if this folder containts images
      */
     override fun FolderTaped(id: Int, folderWithImages: Boolean) {
-        val diskItem = CollectionsHelper.first(diskItems) { i: DiskItemInfo? -> i!!.id == id }
+        val diskItem = CollectionsHelper.first(diskItems, Predicate { i: DiskItemInfo? -> i!!.id == id })
         menuManager!!.setAcceptVisible(false) // Hide accept button
         choosedDiskItem = null
         showDiskItems(diskItem!!.absolutePath, true) // show items of this folder

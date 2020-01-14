@@ -50,7 +50,7 @@ class PagesMapActivity : AppCompatActivity() {
     private fun onZoomPage(pageIndex: Int) {
         val dialog = ZoomedPagePreviewDialog(
             this,
-            AppPrivateFilesHelper.getFullName(pages!![pageIndex].fileName),
+            AppPrivateFilesHelper.getFullName(pages!![pageIndex].fileName!!),
             view!!.size.scale(0.9f))
         dialog.show()
     }

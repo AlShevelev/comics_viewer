@@ -11,6 +11,7 @@ import com.shevelev.comics_viewer.comics_workers.IPreviewCreator
 import com.shevelev.comics_viewer.comics_workers.PreviewCreator
 import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
+import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.helpers.BitmapsHelper
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.AppPrivateFilesHelper
@@ -33,13 +34,15 @@ class BookshelfComicsReader(
     protected override fun doInBackground(vararg params: Void?): Void? {
         try {
             val comics = comicsFilter.comics
-            readComics = if (comics != null) CollectionsHelper.transform(comics) { item: BookcaseComics ->
+            readComics = if (comics != null) CollectionsHelper.transform(comics, IFuncOneArg { item: BookcaseComics ->
                 BookshelfComicsInfo(
                     item.id,
                     item.displayName!!,
                     getCover(item)!!,
                     item.isNeedShowPrivateCover)
-            } else null
+            }) else {
+                null
+            }
         } catch (ex: Exception) {
             Log.e("CV", "exception", ex)
         }
@@ -51,7 +54,7 @@ class BookshelfComicsReader(
             if (privateCover == null) privateCover = CoverCreator.create(BitmapsHelper.loadFromRaw(R.drawable.img_private_comics_cover), previewCreator)
             return privateCover
         }
-        return BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(comics.coverFilename))
+        return BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(comics.coverFilename!!))
     }
 
     override fun onPreExecute() {

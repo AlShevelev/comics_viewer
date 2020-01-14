@@ -17,7 +17,7 @@ object PagesStartSorter {
             diskItem1.displayName.compareTo(diskItem2.displayName, ignoreCase = true)
     }
 
-    fun sort(pathToFolder: String?): List<DiskItemInfo> {
+    fun sort(pathToFolder: String): List<DiskItemInfo> {
         val folderInfo = FolderInfo(pathToFolder)
         val images = folderInfo.images
 

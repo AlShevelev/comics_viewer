@@ -1,7 +1,6 @@
 package com.shevelev.comics_viewer.activities.main
 
 import com.shevelev.comics_viewer.dal.dto.Comics
-import java.util.*
 
 /**
  * Data for comics sort

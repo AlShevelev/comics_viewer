@@ -11,6 +11,7 @@ import com.shevelev.comics_viewer.common.custom_controls.ProgressBar
 import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.structs.Size
+import java.util.function.Predicate
 
 /**
  * Main view for bookshelf
@@ -62,7 +63,7 @@ class BookshelfView(activity: Activity?, layoutId: Int, private val changeModeHa
      */
     fun scrollToComics(idOfComicsToScroll: Long?) {
         if (books != null && adapter != null && idOfComicsToScroll != null && shelfsList.canScrollVertically(1)) {
-            val indexOfComics = CollectionsHelper.firstIndexOf(books) { item: BookshelfComicsInfo -> item.id == idOfComicsToScroll }
+            val indexOfComics = CollectionsHelper.firstIndexOf(books, Predicate { item: BookshelfComicsInfo -> item.id == idOfComicsToScroll })
             if (indexOfComics != null) {
                 val indexOfShelf = adapter!!.getShelfForComicsIndex(indexOfComics)
                 val shelfsOnScreen = adapter!!.shelfsOnScreenCount

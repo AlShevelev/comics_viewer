@@ -4,9 +4,7 @@ import android.graphics.*
 import android.util.Log
 import com.shevelev.comics_viewer.activities.view_comics.bitmap_repository.BitmapRepository
 import com.shevelev.comics_viewer.activities.view_comics.bitmap_repository.IBitmapRepository
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.dal.DalFacade
-import com.shevelev.comics_viewer.dal.dto.Page
 import java.io.IOException
 
 /**
@@ -76,8 +74,7 @@ internal class PageProvider(comicsId: Long) : IPageProvider {
     }
 
     init {
-        var pages = DalFacade.Comics.getPages(comicsId)
-        pages = CollectionsHelper.sort(pages, { lhs: Page, rhs: Page -> java.lang.Long.compare(lhs.order.toLong(), rhs.order.toLong()) }, false)
-        repository = BitmapRepository(pages)
+        repository = BitmapRepository(
+            DalFacade.Comics.getPages(comicsId)!!.sortedWith(Comparator { o1, o2 -> o1.order.compareTo(o2.order) }))
     }
 }

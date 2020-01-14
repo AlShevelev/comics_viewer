@@ -67,7 +67,7 @@ class FoldersTreeItem(
         if(CollectionsHelper.isNullOrEmpty(subItems))
             return false
 
-        return CollectionsHelper.any(subItems) { t -> t.isActive || t.hasImages }
+        return subItems!!.any { it.isActive || it.hasImages }
     }
 
     constructor(parcel: Parcel) : this(

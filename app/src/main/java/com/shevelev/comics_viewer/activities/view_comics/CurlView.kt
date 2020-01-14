@@ -87,7 +87,7 @@ class CurlView : GLSurfaceView, OnTouchListener, CurlRenderer.Observer, IUserAct
      */
     private fun init(ctx: Context) {
         currentContext = ctx
-        userActionManager = UserActionManager(this, ScreenHelper.getScreenSize(currentContext as Activity?))
+        userActionManager = UserActionManager(this, ScreenHelper.getScreenSize(currentContext as Activity))
         renderer = CurlRenderer(this)
         setRenderer(renderer)
         renderMode = RENDERMODE_WHEN_DIRTY

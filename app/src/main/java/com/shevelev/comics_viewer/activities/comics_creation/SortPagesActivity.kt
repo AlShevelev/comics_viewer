@@ -34,6 +34,7 @@ import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderI
 import com.shevelev.comics_viewer.common.structs.Size
 import com.shevelev.comics_viewer.common.threads.CancelationToken
 import java.util.*
+import java.util.function.Predicate
 
 /**
  * Activity for sorting pages on comics creation
@@ -63,7 +64,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
      * Making preview in background thread
      */
     internal inner class CreatePreviewTask : AsyncTask<Boolean?, Int?, Void?>() {
-        private var pathToFolder: String? = null
+        private var pathToFolder: String = ""
         private var displaySize: Size? = null
         private var textPaint: Paint? = null
         private var isSuccess = false
@@ -98,8 +99,8 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
                 if (cancelationToken.isCanceled) return null
                 firstTime = params[0]!!
                 val calculatedItems = createListsItems(pathToFolder)
-                items1 = CollectionsHelper.transform(calculatedItems, IFuncOneArg { i: ListItemDrag -> i }, cancelationToken) // Equals lists
-                items2 = CollectionsHelper.transform(calculatedItems, IFuncOneArg { i: ListItemDrag -> i }, cancelationToken)
+                items1 = CollectionsHelper.transform(calculatedItems, IFuncOneArg { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList() // Equals lists
+                items2 = CollectionsHelper.transform(calculatedItems, IFuncOneArg { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList()
                 thumbnailManager!!.warmUpCaches(items1!!)
                 isSuccess = true
             } catch (e: Exception) {
@@ -231,9 +232,9 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
     override fun onSetVisibilityItem(itemIndex: Int) {
         val item = items1!![itemIndex] // Both list contant same items so we must update only one
         item.isVisibile = !item.isVisibile
-        ListViewHelper.invalidateListItem(itemIndex, listView1)
-        ListViewHelper.invalidateListItem(itemIndex, listView2)
-        menuManager!!.setAcceptVisible(CollectionsHelper.any(items1) { i: ListItemDrag -> i.isVisibile }) // all items hided - hide accept icon
+        ListViewHelper.invalidateListItem(itemIndex, listView1!!)
+        ListViewHelper.invalidateListItem(itemIndex, listView2!!)
+        menuManager!!.setAcceptVisible(items1!!.any { it.isVisibile }) // all items hided - hide accept icon
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -298,9 +299,9 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
     private fun closeOk() {
         if (!isInited) return
         val idsList = CollectionsHelper.transform(
-            CollectionsHelper.where(items1) { item: ListItemDrag -> item.isVisibile }
-        ) { item: ListItemDrag -> item.id }
-        val ids = IntArray(idsList.size)
+            CollectionsHelper.where(items1, Predicate { item: ListItemDrag -> item.isVisibile }),
+             IFuncOneArg { item: ListItemDrag -> item.id })
+        val ids = IntArray(idsList!!.size)
         for (i in ids.indices) ids[i] = idsList[i]
         val intent = Intent() // Choose folder and close activity
         intent.putExtra(ActivityResultCodes.ID_OF_PAGES, ids)

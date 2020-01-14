@@ -19,11 +19,12 @@ import com.shevelev.comics_viewer.common.rhea.RheaOperationProgressInfo
 class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(activity!!) {
     private var chooseComicsName: ChooseComicsName? = null
     private var comicsCreator: ComicsCreator? = null
-    fun preStart(pathToFolder: String?) {
+    fun preStart(pathToFolder: String) {
+
         chooseComicsName = ChooseComicsName(context, IActionThreeArgs {
-            name: String, isPrivate: Boolean, pathToComicsFolder: String? -> onComicsNameChoose(name, isPrivate, pathToComicsFolder)
+            name: String, isPrivate: Boolean, pathToComicsFolder: String -> onComicsNameChoose(name, isPrivate, pathToComicsFolder)
         })
-        chooseComicsName!!.startCreate(pathToFolder!!) // Choose comics name
+        chooseComicsName!!.startCreate(pathToFolder) // Choose comics name
     }
 
     fun start(diskItemsSortedIds: IntArray) {
@@ -62,7 +63,7 @@ class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase
      * @param name - name of comics
      * @param pathToFolder - path to comics folder
      */
-    private fun onComicsNameChoose(name: String, isPrivateComics: Boolean, pathToFolder: String?) {
+    private fun onComicsNameChoose(name: String, isPrivateComics: Boolean, pathToFolder: String) {
         val images = sort(pathToFolder)
         comicsCreator = ComicsCreator(ComicsCreator.tag, name, isPrivateComics, images, ScreenHelper.getClientSize(context))
         start(context, pathToFolder) // Start pages sorting
