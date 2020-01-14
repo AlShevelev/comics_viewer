@@ -29,7 +29,7 @@ class PagesMapActivity : AppCompatActivity() {
         comicsId = intent.extras.getLong(ActivityParamCodes.IdOfComics)
         val comics = DalFacade.Comics.getComicsById(comicsId)
         pages = DalFacade.Comics.getPages(comicsId)
-        activePageIndex = comics.lastViewedPageIndex
+        activePageIndex = comics!!.lastViewedPageIndex
         view = PagesMapView(this, comics, pages!!, IActionOneArgs { newActivePageIndex: Int -> onChangeActivePage(newActivePageIndex) }, IActionOneArgs { pageIndex: Int -> onZoomPage(pageIndex) })
         setContentView(view)
     }

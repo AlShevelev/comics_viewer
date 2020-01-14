@@ -41,7 +41,7 @@ class ViewComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(a
     /** Can we open comics?  */
     private fun getOpenComicsConditions(comicsId: Long): ComicsOpenConditions {
         val comics = DalFacade.Comics.getComicsById(comicsId)
-        if (!comics.isPrivate) return ComicsOpenConditions.CanOpen // Public comics can be opened without conditions
+        if (!comics!!.isPrivate) return ComicsOpenConditions.CanOpen // Public comics can be opened without conditions
         return if (OptionsFacade.LongLivings[OptionsKeys.Password] != null) {
             if (OptionsFacade.ShortLivings[OptionsKeys.PasswordEntered] != null) ComicsOpenConditions.CanOpen else ComicsOpenConditions.ShowEnterPasswordDialog
         } else ComicsOpenConditions.ShowCreatePasswordDialog // No password - need create

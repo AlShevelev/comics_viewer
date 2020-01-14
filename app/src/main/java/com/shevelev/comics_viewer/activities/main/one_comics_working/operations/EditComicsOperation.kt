@@ -21,7 +21,7 @@ class EditComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(a
                 val updateResult = DalFacade.Comics.updateNameAndHidden(comicsId, result.title, result.isPrivate)
                 if (updateResult) uiMethods.updateBooksList(null) else ToastsHelper.Show(R.string.message_cant_update_comics_title, ToastsHelper.Position.Center)
             },
-            IActionZeroArgs {}, R.string.dialog_comics_name_title, R.layout.dialog_enter_name, ComicsNameDialog.Model(comics.name, comics.isPrivate))
+            IActionZeroArgs {}, R.string.dialog_comics_name_title, R.layout.dialog_enter_name, ComicsNameDialog.Model(comics!!.name, comics.isPrivate))
         dialog.show()
     }
 }

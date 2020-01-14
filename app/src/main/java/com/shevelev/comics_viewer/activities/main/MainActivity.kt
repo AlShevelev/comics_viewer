@@ -211,7 +211,7 @@ class MainActivity : AppCompatActivity(), IRheaActivity, IOneComicsActivity {
     /**
      * Work completed successfully
      */
-    override fun onRheaWorkCompleted(tag: String, result: Any) {
+    override fun onRheaWorkCompleted(tag: String, result: Any?) {
         when (tag) {
             ComicsCreator.tag -> comicsWorkingFacade!!.create.complete(result)
             ComicsDeletor.tag -> comicsWorkingFacade!!.delete.complete()

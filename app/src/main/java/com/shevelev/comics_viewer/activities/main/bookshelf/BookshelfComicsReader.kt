@@ -24,10 +24,11 @@ class BookshelfComicsReader(
     private val comicsFilter: IComicsFilter,
     private val beforeExecute: IActionZeroArgs,
     private val afterExecute: IActionOneArgs<List<BookshelfComicsInfo>?>,
-    clientSize: Size?) : AsyncTask<Void?, Void?, Void?>() {
+    clientSize: Size) : AsyncTask<Void?, Void?, Void?>() {
+
     private var readComics: List<BookshelfComicsInfo>? = null
     private var privateCover: Bitmap? = null
-    private val previewCreator: IPreviewCreator
+    private val previewCreator: IPreviewCreator = PreviewCreator(clientSize)
 
     protected override fun doInBackground(vararg params: Void?): Void? {
         try {
@@ -61,9 +62,5 @@ class BookshelfComicsReader(
     override fun onPostExecute(result: Void?) {
         super.onPostExecute(result)
         afterExecute.process(readComics)
-    }
-
-    init {
-        previewCreator = PreviewCreator(clientSize)
     }
 }

@@ -32,7 +32,7 @@ class CurlActivity : Activity() {
         super.onCreate(savedInstanceState)
         comicsId = intent.extras.getLong(ActivityParamCodes.IdOfComics)
         setContentView(R.layout.activity_view_comics)
-        val currentPageIndex = DalFacade.Comics.getComicsById(comicsId).lastViewedPageIndex
+        val currentPageIndex = DalFacade.Comics.getComicsById(comicsId)!!.lastViewedPageIndex
         curlView = findViewById<View>(R.id.curl) as CurlView
         curlView!!.setPageProvider(PageProvider(comicsId))
         curlView!!.initCurrentPageIndex(currentPageIndex)
@@ -98,8 +98,8 @@ class CurlActivity : Activity() {
     private fun processGotoPage() {
         val comics = DalFacade.Comics.getComicsById(comicsId)
         val gotoPageDialog = GotoPageDialog(this,
-            IActionOneArgs { result: OutputModel -> if (result.pageNumber != comics.lastViewedPageIndex) curlView!!.setCurrentPageIndex(result.pageNumber) },
-            InputModel(comics.lastViewedPageIndex, comics.totalPages))
+            IActionOneArgs { result: OutputModel -> if (result.pageNumber != comics!!.lastViewedPageIndex) curlView!!.setCurrentPageIndex(result.pageNumber) },
+            InputModel(comics!!.lastViewedPageIndex, comics.totalPages))
         gotoPageDialog.show()
     }
 

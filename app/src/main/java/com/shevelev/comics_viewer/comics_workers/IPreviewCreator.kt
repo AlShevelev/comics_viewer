@@ -1,22 +1,21 @@
-package com.shevelev.comics_viewer.comics_workers;
+package com.shevelev.comics_viewer.comics_workers
 
-import android.graphics.Bitmap;
+import android.graphics.Bitmap
 
-public interface IPreviewCreator
-{
+interface IPreviewCreator {
     /**
      * Creates preview from source image in file
      * @param sourceFullNameOfFile
      * @return
      */
-    Bitmap createPreview(String sourceFullNameOfFile);
+    fun createPreview(sourceFullNameOfFile: String): Bitmap
 
     /**
      * Creates preview from source image
      * @param sourceBitmap
      * @return
      */
-    Bitmap createPreview(Bitmap sourceBitmap);
+    fun createPreview(sourceBitmap: Bitmap): Bitmap
 
     /**
      * Creates preview from source image and save its
@@ -24,5 +23,5 @@ public interface IPreviewCreator
      * @param previewFileName
      * @return created preview (null if fail)
      */
-    Bitmap createPreviewAndSave(String sourceFullNameOfFile, String previewFileName);
+    fun createPreviewAndSave(sourceFullNameOfFile: String, previewFileName: String?): Bitmap?
 }

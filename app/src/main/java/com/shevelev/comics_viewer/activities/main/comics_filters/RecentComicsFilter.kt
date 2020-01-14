@@ -13,7 +13,7 @@ class RecentComicsFilter(comicsSortInfo: ComicsSortInfo?, isPrivateComicsHidden:
         protected get() {
             var result = DalFacade.Comics.getComics(true)
             result = CollectionsHelper.where(result) { item: Comics -> item.lastViewDate != null }
-            result = CollectionsHelper.sort(result, { c1: Comics, c2: Comics -> c1.lastViewDate.compareTo(c2.lastViewDate) }, true)
+            result = CollectionsHelper.sort(result, { c1: Comics, c2: Comics -> c1.lastViewDate?.compareTo(c2.lastViewDate) ?: 0 }, true)
             result = CollectionsHelper.take(result, comicsToReturn, 0)
             return result
         }

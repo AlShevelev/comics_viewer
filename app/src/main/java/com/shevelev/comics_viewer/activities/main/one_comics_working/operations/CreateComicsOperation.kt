@@ -20,11 +20,13 @@ class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase
     private var chooseComicsName: ChooseComicsName? = null
     private var comicsCreator: ComicsCreator? = null
     fun preStart(pathToFolder: String?) {
-        chooseComicsName = ChooseComicsName(context, IActionThreeArgs { name: String, isPrivate: Boolean, pathToComicsFolder: String? -> onComicsNameChoose(name, isPrivate, pathToComicsFolder) })
+        chooseComicsName = ChooseComicsName(context, IActionThreeArgs {
+            name: String, isPrivate: Boolean, pathToComicsFolder: String? -> onComicsNameChoose(name, isPrivate, pathToComicsFolder)
+        })
         chooseComicsName!!.startCreate(pathToFolder!!) // Choose comics name
     }
 
-    fun start(diskItemsSortedIds: IntArray?) {
+    fun start(diskItemsSortedIds: IntArray) {
         comicsCreator!!.setDiskItems(diskItemsSortedIds)
         uiMethods.isUserActionsLock = true
         uiMethods.setProgressState(true)

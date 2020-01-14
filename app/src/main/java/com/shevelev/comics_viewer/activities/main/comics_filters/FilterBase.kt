@@ -14,11 +14,14 @@ abstract class FilterBase(private val comicsSortInfo: ComicsSortInfo?, private v
     override val comics: List<BookcaseComics>
         get() {
             var resultDraft = comicsList
-            if (comicsSortInfo != null) resultDraft = CollectionsHelper.sort(resultDraft, comicsSortInfo.comparator, comicsSortInfo.isReverse)
-            return transform(resultDraft)
+            if (comicsSortInfo != null) {
+                resultDraft = CollectionsHelper.sort(resultDraft, comicsSortInfo.comparator, comicsSortInfo.isReverse)
+                return transform(resultDraft)
+            }
+            return listOf()
         }
 
-    protected abstract val comicsList: List<Comics>
+    protected abstract val comicsList: List<Comics>?
 
     private fun transform(source: List<Comics>): List<BookcaseComics> {
         val result = ArrayList<BookcaseComics>(source.size)

@@ -8,6 +8,6 @@ import com.shevelev.comics_viewer.dal.dto.Comics
  * Get all comics - public and private
  */
 class AllComicsFilter(comicsSortInfo: ComicsSortInfo?, isPrivateComicsHidden: Boolean) : FilterBase(comicsSortInfo, isPrivateComicsHidden) {
-    override val comicsList: List<Comics>
+    override val comicsList: List<Comics>?
         get() = DalFacade.Comics.getComics(true)
 }
