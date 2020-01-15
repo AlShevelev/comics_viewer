@@ -26,8 +26,6 @@ import com.shevelev.comics_viewer.activities.main_options.MainOptionsActivity
 import com.shevelev.comics_viewer.activities.view_comics.CurlActivity
 import com.shevelev.comics_viewer.comics_workers.ComicsCreator
 import com.shevelev.comics_viewer.comics_workers.ComicsDeletor
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 import com.shevelev.comics_viewer.common.helpers.ScreenHelper
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.rhea.IRheaActivity
@@ -47,8 +45,8 @@ class MainActivity : AppCompatActivity(), IRheaActivity, IOneComicsActivity {
         super.onCreate(savedInstanceState)
         RheaFacade.onCreate(this)
         userActionsManager = UserActionsManager(this)
-        changeModeHandler = ChangeModeHandler(ComicsViewMode.ALL, IActionOneArgs { mode: ComicsViewMode -> comicsViewModeChanged(mode) })
-        view = BookshelfView(this, R.layout.activity_main, changeModeHandler!!, IActionOneArgs { dbComicsId: Long -> onComicsChoosen(dbComicsId) })
+        changeModeHandler = ChangeModeHandler(ComicsViewMode.ALL) { mode: ComicsViewMode -> comicsViewModeChanged(mode) }
+        view = BookshelfView(this, R.layout.activity_main, changeModeHandler!!) { dbComicsId: Long -> onComicsChoosen(dbComicsId) }
         setContentView(view)
         comicsWorkingFacade = ComicsWorkingFacade(this)
         updateBooksList(null)
@@ -143,11 +141,11 @@ class MainActivity : AppCompatActivity(), IRheaActivity, IOneComicsActivity {
      */
     override fun updateBooksList(idOfComicsToScroll: Long?) {
         val reader = BookshelfComicsReader(getFilter(changeModeHandler!!.viewMode),
-            IActionZeroArgs {
+            {
                 userActionsManager!!.lock()
                 view!!.showProgress()
             },
-            IActionOneArgs { comics: List<BookshelfComicsInfo>? ->
+            { comics: List<BookshelfComicsInfo>? ->
                 if (comics != null) {
                     view!!.setBooks(comics)
                     if (idOfComicsToScroll != null) {

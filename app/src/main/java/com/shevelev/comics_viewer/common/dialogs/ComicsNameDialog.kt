@@ -7,16 +7,14 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import com.shevelev.comics_viewer.R
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 
 /**
  * Dialog for name of comics
  */
 class ComicsNameDialog(
     parentActivity: Activity?,
-    okAction: IActionOneArgs<Model>,
-    cancelAction: IActionZeroArgs?,
+    okAction: (Model) -> Unit,
+    cancelAction: (() -> Unit)?,
     titleResourceId: Int,
     dialogLayoutId: Int,
     initModel: Model

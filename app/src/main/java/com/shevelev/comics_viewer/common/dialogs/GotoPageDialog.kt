@@ -10,14 +10,13 @@ import android.widget.TextView
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.common.dialogs.GotoPageDialog.InputModel
 import com.shevelev.comics_viewer.common.dialogs.GotoPageDialog.OutputModel
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 
 /**
  * Dialog "Go to page"
  */
 class GotoPageDialog(
     parentActivity: Activity?,
-    okAction: IActionOneArgs<OutputModel>,
+    okAction: (OutputModel) -> Unit,
     initModel: InputModel
 ) : CommonDialogBase<InputModel, OutputModel>(parentActivity!!, okAction, null, R.string.dialog_goto_page_title, R.layout.dialog_goto_page, initModel) {
     private var inputField: EditText? = null

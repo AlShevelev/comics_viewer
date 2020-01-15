@@ -10,8 +10,6 @@ import com.shevelev.comics_viewer.activities.ActivityCodes
 import com.shevelev.comics_viewer.activities.ActivityResultCodes
 import com.shevelev.comics_viewer.common.dialogs.CreatePasswordDialog
 import com.shevelev.comics_viewer.common.dialogs.EnterPasswordDialog
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.dal.dto.Option
 import com.shevelev.comics_viewer.options.OptionsFacade
@@ -49,12 +47,12 @@ class MainOptionsActivity : Activity() {
     private fun onCreatePasswordClick() {
         val dialog = CreatePasswordDialog(
             this,
-            IActionOneArgs { result: CreatePasswordDialog.Model ->
+            { result: CreatePasswordDialog.Model ->
                 OptionsFacade.LongLivings.addOrUpdate(arrayOf(Option(OptionsKeys.Password, result.password), Option(OptionsKeys.PasswordsHint, result.hint)))
                 OptionsFacade.ShortLivings.addOrUpdate(arrayOf(Option(OptionsKeys.PasswordEntered, OptionsValues.True)))
                 setPasswordControlsVisibility()
             },
-            IActionZeroArgs {})
+            { })
         dialog.show()
     }
 
@@ -63,13 +61,13 @@ class MainOptionsActivity : Activity() {
         val hint = OptionsFacade.LongLivings[OptionsKeys.PasswordsHint]
         val dialog = EnterPasswordDialog(
             this,
-            IActionOneArgs { result: String ->
+            { result: String ->
                 if (result == password) {
                     OptionsFacade.ShortLivings.addOrUpdate(arrayOf(Option(OptionsKeys.PasswordEntered, OptionsValues.True)))
                     setPasswordControlsVisibility()
                 } else ToastsHelper.Show(R.string.message_invalid_password, ToastsHelper.Position.Center)
             },
-            IActionZeroArgs {}, hint!!)
+            { }, hint!!)
         dialog.show()
     }
 
@@ -77,8 +75,8 @@ class MainOptionsActivity : Activity() {
         val password = OptionsFacade.LongLivings[OptionsKeys.Password]
         val dialog = CreatePasswordDialog(
             this,
-            IActionOneArgs { result: CreatePasswordDialog.Model -> OptionsFacade.LongLivings.addOrUpdate(arrayOf(Option(OptionsKeys.Password, result.password), Option(OptionsKeys.PasswordsHint, result.hint))) },
-            IActionZeroArgs {}, R.string.dialog_change_password_title, R.layout.dialog_create_password, password!!)
+            { result: CreatePasswordDialog.Model -> OptionsFacade.LongLivings.addOrUpdate(arrayOf(Option(OptionsKeys.Password, result.password), Option(OptionsKeys.PasswordsHint, result.hint))) },
+            { }, R.string.dialog_change_password_title, R.layout.dialog_create_password, password!!)
         dialog.show()
     }
 

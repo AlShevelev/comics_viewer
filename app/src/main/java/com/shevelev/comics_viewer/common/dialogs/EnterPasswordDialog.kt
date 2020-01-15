@@ -10,16 +10,14 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
 import com.shevelev.comics_viewer.R
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 
 /**
  * Dialog for enter comics password
  */
 class EnterPasswordDialog(
     parentActivity: Activity?,
-    okAction: IActionOneArgs<String>,
-    cancelAction: IActionZeroArgs?,
+    okAction: (String) -> Unit,
+    cancelAction: (() -> Unit)?,
     hint: String) : CommonDialogBase<EnterPasswordDialog.Model, String>(
     parentActivity!!,
     okAction,

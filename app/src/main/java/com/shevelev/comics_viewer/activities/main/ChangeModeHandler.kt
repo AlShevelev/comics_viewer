@@ -5,13 +5,12 @@ import android.widget.TextView
 import com.shevelev.comics_viewer.App.Main.context
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.comics_filters.ComicsViewMode
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 
 /**
  * Handle change mode of comics view
+ * [viewMode] Mode changed callback
  */
-class ChangeModeHandler(var viewMode: ComicsViewMode, // Mode changed callback
-                        private val modeChanged: IActionOneArgs<ComicsViewMode>) : IChangeModeHandlerView {
+class ChangeModeHandler(var viewMode: ComicsViewMode, private val modeChanged: (ComicsViewMode) -> Unit) : IChangeModeHandlerView {
     private val activeColor: Int
     private val inactiveColor: Int
 
@@ -23,13 +22,13 @@ class ChangeModeHandler(var viewMode: ComicsViewMode, // Mode changed callback
     override fun onAllComicsClicked(allComicsControl: View, recentComicsControl: View) {
         viewMode = ComicsViewMode.ALL
         showMode(allComicsControl as TextView, recentComicsControl as TextView)
-        modeChanged.process(viewMode)
+        modeChanged(viewMode)
     }
 
     override fun onRecentComicsClicked(allComicsControl: View, recentComicsControl: View) {
         viewMode = ComicsViewMode.RECENT
         showMode(allComicsControl as TextView, recentComicsControl as TextView)
-        modeChanged.process(viewMode)
+        modeChanged(viewMode)
     }
 
     override fun initState(allComicsControl: View, recentComicsControl: View) {

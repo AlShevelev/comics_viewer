@@ -8,7 +8,6 @@ import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.bookshelf.BookshelfComicsInfo
 import com.shevelev.comics_viewer.activities.main.bookshelf.BookshelfListAdapter
 import com.shevelev.comics_viewer.common.custom_controls.ProgressBar
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.structs.Size
 import java.util.function.Predicate
@@ -17,7 +16,7 @@ import java.util.function.Predicate
  * Main view for bookshelf
  */
 class BookshelfView(activity: Activity?, layoutId: Int, private val changeModeHandler: IChangeModeHandlerView, // On comics click handler - for view comics
-                    private val onComicsChoosen: IActionOneArgs<Long>) : LinearLayout(activity) {
+                    private val onComicsChoosen: (Long) -> Unit) : LinearLayout(activity) {
     private val shelfsList // List with shelfes
         : ListView
     private val progressBar: ProgressBar
@@ -51,7 +50,7 @@ class BookshelfView(activity: Activity?, layoutId: Int, private val changeModeHa
         if (parentSize != null) initListByBooks(onComicsChoosen) // Create adapter here
     }
 
-    private fun initListByBooks(onComicsChoosen: IActionOneArgs<Long>) {
+    private fun initListByBooks(onComicsChoosen: (Long) -> Unit) {
         adapter = BookshelfListAdapter((context as Activity), books!!, changeModeHandler, onComicsChoosen)
         adapter!!.setParentSize(parentSize!!)
         shelfsList.adapter = adapter

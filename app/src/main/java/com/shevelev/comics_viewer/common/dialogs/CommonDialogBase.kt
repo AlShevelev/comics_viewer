@@ -7,8 +7,6 @@ import android.view.View
 import android.widget.Button
 import com.shevelev.comics_viewer.App.Main.context
 import com.shevelev.comics_viewer.R
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 
 /**
  * Base class for common dialogs
@@ -17,8 +15,8 @@ import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 </TO></TI> */
 abstract class CommonDialogBase<TI, TO> protected constructor(
     private val parentActivity: Activity,
-    private val okAction: IActionOneArgs<TO>,
-    private val cancelAction: IActionZeroArgs?,
+    private val okAction: (TO) -> Unit,
+    private val cancelAction: (() -> Unit)?,
     titleResourceId: Int,
     dialogLayoutId: Int,
     initModel: TI) {
@@ -49,11 +47,11 @@ abstract class CommonDialogBase<TI, TO> protected constructor(
 
     protected abstract val outputModel: TO
     protected fun setOkButton(builder: AlertDialog.Builder, buttonTextResourceId: Int) {
-        builder.setPositiveButton(buttonTextResourceId) { dialog: DialogInterface?, which: Int -> okAction.process(outputModel) }
+        builder.setPositiveButton(buttonTextResourceId) { dialog: DialogInterface?, which: Int -> okAction(outputModel) }
     }
 
     protected fun setCancelButton(builder: AlertDialog.Builder, buttonTextResourceId: Int) {
-        builder.setNegativeButton(buttonTextResourceId) { dialog: DialogInterface?, which: Int -> cancelAction?.process() }
+        builder.setNegativeButton(buttonTextResourceId) { dialog: DialogInterface?, which: Int -> cancelAction?.invoke() }
     }
 
     fun show() {

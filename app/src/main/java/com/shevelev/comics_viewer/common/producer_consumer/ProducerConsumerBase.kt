@@ -4,7 +4,6 @@ import android.os.Handler
 import android.os.Message
 import android.util.Log
 import com.shevelev.comics_viewer.common.collections.ConcurrentSpillingStack
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 
 /**
  * Base class for Producer/Consumer pattern. One consumer runing in background thread
@@ -86,7 +85,7 @@ abstract class ProducerConsumerBase(maxQueueLen: Int) {
     /**
      * Add task in processing queue  (runs in UI thread)
      */
-    fun removeTask(condition: IFuncOneArg<ProducerConsumerTaskBase, Boolean>) {
+    fun removeTask(condition: (ProducerConsumerTaskBase) -> Boolean) {
         tasks.remove(condition)
     }
 

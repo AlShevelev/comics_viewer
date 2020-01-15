@@ -13,8 +13,6 @@ import com.shevelev.comics_viewer.activities.view_comics.helpers.PointsHelper.ge
 import com.shevelev.comics_viewer.activities.view_comics.user_actions_managing.IUserActionsManaged
 import com.shevelev.comics_viewer.activities.view_comics.user_actions_managing.UserActionManager
 import com.shevelev.comics_viewer.activities.view_comics.user_actions_managing.ViewStateCodes
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 import com.shevelev.comics_viewer.common.helpers.ScreenHelper
 
 /**
@@ -59,9 +57,10 @@ class CurlView : GLSurfaceView, OnTouchListener, CurlRenderer.Observer, IUserAct
     private var firstDraggingPoint // Size of screen diagonal in pixels
         : PointF? = null
     private var draggingState: DraggingState? = null
-    private var onPageChanged: IActionOneArgs<Int>? = null
-    private var onShowMenu // When we neet show menu
-        : IActionZeroArgs? = null
+    private var onPageChanged: ((Int) -> Unit)? = null
+
+    // When we need show menu
+    private var onShowMenu : (() -> Unit)? = null
 
     /**
      * Default constructor.
@@ -136,7 +135,7 @@ class CurlView : GLSurfaceView, OnTouchListener, CurlRenderer.Observer, IUserAct
             }
             curlState = CurlState.None
             animate = false
-            onPageChanged!!.process(currentPageIndex)
+            onPageChanged!!(currentPageIndex)
             requestRender()
         } else {
             pointerPos.mPos.set(animationSource)
@@ -329,7 +328,7 @@ class CurlView : GLSurfaceView, OnTouchListener, CurlRenderer.Observer, IUserAct
     }
 
     override fun showMenu() {
-        onShowMenu!!.process()
+        onShowMenu!!()
     }
 
     override fun onTouch(view: View, me: MotionEvent): Boolean {
@@ -439,7 +438,7 @@ class CurlView : GLSurfaceView, OnTouchListener, CurlRenderer.Observer, IUserAct
         this.currentPageIndex = currentPageIndex
         updatePages()
         reset()
-        onPageChanged!!.process(currentPageIndex)
+        onPageChanged!!(currentPageIndex)
     }
 
     /**
@@ -452,7 +451,7 @@ class CurlView : GLSurfaceView, OnTouchListener, CurlRenderer.Observer, IUserAct
     /**
      * Set callback handlers
      */
-    fun setCallbackHandlers(onPageChanged: IActionOneArgs<Int>?, onShowMenu: IActionZeroArgs?) {
+    fun setCallbackHandlers(onPageChanged: ((Int) -> Unit)?, onShowMenu: (() -> Unit)?) {
         this.onPageChanged = onPageChanged
         this.onShowMenu = onShowMenu
     }

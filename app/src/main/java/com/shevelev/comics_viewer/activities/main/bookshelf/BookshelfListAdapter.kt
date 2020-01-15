@@ -10,7 +10,6 @@ import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.IChangeModeHandlerView
 import com.shevelev.comics_viewer.activities.main.bookshelf.ViewHolders.ShelfHolder
 import com.shevelev.comics_viewer.activities.main.bookshelf.comics_control.ComicsControl
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.structs.Size
 import java.util.*
 
@@ -21,7 +20,7 @@ class BookshelfListAdapter(
     private val activity: Activity,
     private val books: List<BookshelfComicsInfo>,
     private val changeModeHandlerView: IChangeModeHandlerView,
-    private val onComicsChoosen: IActionOneArgs<Long>       // On comics click handler - for view comics
+    private val onComicsChoosen: (Long) -> Unit       // On comics click handler - for view comics
 ) : BaseAdapter() {
     private var booksCount : Int = 0        // Books total
     private var booksOnShelf = 0 // Max books on shelf = 0

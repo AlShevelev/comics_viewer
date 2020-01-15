@@ -5,10 +5,6 @@ import com.shevelev.comics_viewer.activities.comics_creation.drag_lists.IListIte
 import com.shevelev.comics_viewer.activities.comics_creation.drag_lists.ListItemDrag
 import com.shevelev.comics_viewer.common.collections.DynamicList
 import com.shevelev.comics_viewer.common.collections.SpillingQueue
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionThreeArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionTwoArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.producer_consumer.ProducerConsumerTaskBase
 import com.shevelev.comics_viewer.common.producer_consumer.ProducerConsumerTaskKinds
 import kotlin.math.min
@@ -17,7 +13,7 @@ import kotlin.math.min
  * Core class for thumbnails calculation
  * [stopCallback] Called when processing stopped
  */
-class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, private val stopCallback: IActionOneArgs<Any>) {
+class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, private val stopCallback: (Any?) -> Unit) {
     companion object {
         private const val LIST_IMAGES_MAX_CAPACITY = 25 // Max len of caching queues
         private const val IMAGES_PROCESSOR_MAX_CAPACITY = 25 // Max len of queues for processing images
@@ -29,10 +25,10 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
     private val imagesProcessor = ThumbnailProcessor(
         IMAGES_PROCESSOR_MAX_CAPACITY,
         listItemImages,
-        IActionThreeArgs { id: Int, listId: ThumbnailListIds, pageImage: Drawable -> onImageCalculated(id, listId, pageImage) },
-        IActionTwoArgs { id: Int, listId: ThumbnailListIds -> onImageCalculationError(id, listId) },
-        IActionTwoArgs { id: Int, listId: ThumbnailListIds -> onImageCalculationSpilled(id, listId) },
-        IActionOneArgs { dataToReturn: Any -> onStopProcessing(dataToReturn) })
+        { id: Int, listId: ThumbnailListIds, pageImage: Drawable -> onImageCalculated(id, listId, pageImage) },
+        { id: Int, listId: ThumbnailListIds -> onImageCalculationError(id, listId) },
+        { id: Int, listId: ThumbnailListIds -> onImageCalculationSpilled(id, listId) },
+        { dataToReturn: Any? -> onStopProcessing(dataToReturn) })
 
     private val waitingControls = DynamicList<IThumbnailControl>()   // Controls waiting for images
 
@@ -72,12 +68,12 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
      */
     fun getThumbnail(thumbnailControl: IThumbnailControl) {
         // Control already in waiting list
-        if (waitingControls.isExists(IFuncOneArg { t: IThumbnailControl -> t.id == thumbnailControl.id && t.listId === thumbnailControl.listId }))
+        if (waitingControls.isExists( { t: IThumbnailControl -> t.id == thumbnailControl.id && t.listId === thumbnailControl.listId }))
             return
 
-        val oldControl = waitingControls.extract(IFuncOneArg { t: IThumbnailControl -> t.imageHashCode == thumbnailControl.imageHashCode })
+        val oldControl = waitingControls.extract( { t: IThumbnailControl -> t.imageHashCode == thumbnailControl.imageHashCode })
         if (oldControl != null) { // ListView reuses controls, so we must remove old control and its taks
-            imagesProcessor.removeTask( IFuncOneArg { t: ProducerConsumerTaskBase ->
+            imagesProcessor.removeTask( { t: ProducerConsumerTaskBase ->
                 if (t.kind != ProducerConsumerTaskKinds.Normal) {
                     false
                 } else {
@@ -87,7 +83,7 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
             })
         }
         val imagesList = getListImages(thumbnailControl.listId) // Try to find image in our list
-        var cachedImage = imagesList.getAndMoveToHead(IFuncOneArg { t: ThumbnailCalculationResult -> t.id == thumbnailControl.id })
+        var cachedImage = imagesList.getAndMoveToHead( { t: ThumbnailCalculationResult -> t.id == thumbnailControl.id })
 
         if (cachedImage != null) { // return cached image
             thumbnailControl.setThumbnail(cachedImage.pageImage)
@@ -95,7 +91,7 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
         }
 
         val anotherListImages = getAnotherListImages(thumbnailControl.listId) // Second attempt - in another list
-        cachedImage = anotherListImages[IFuncOneArg { t: ThumbnailCalculationResult -> t.id == thumbnailControl.id }]
+        cachedImage = anotherListImages[ { t: ThumbnailCalculationResult -> t.id == thumbnailControl.id }]
         if (cachedImage != null) {
             imagesList.push(cachedImage) // push in our list
             thumbnailControl.setThumbnail(cachedImage.pageImage) // and return cached image
@@ -113,7 +109,7 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
      * @param pageImage calculated image
      */
     private fun onImageCalculated(id: Int, listId: ThumbnailListIds, pageImage: Drawable) {
-        val control = waitingControls.extract(IFuncOneArg { item: IThumbnailControl -> item.id == id && item.listId === listId })
+        val control = waitingControls.extract( { item: IThumbnailControl -> item.id == id && item.listId === listId })
             ?: return // remove control from waiting list
         val imagesList = getListImages(control.listId) // push image to cache
         imagesList.push(ThumbnailCalculationResult(id, pageImage))
@@ -125,14 +121,14 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
      * @param id id of control
      */
     private fun onImageCalculationError(id: Int, listId: ThumbnailListIds) =
-        waitingControls.extract(IFuncOneArg { item: IThumbnailControl -> item.id == id && item.listId === listId }) // remove control from waiting list
+        waitingControls.extract( { item: IThumbnailControl -> item.id == id && item.listId === listId }) // remove control from waiting list
 
     /**
      * Calculation was spilled
      * @param id id of control
      */
     private fun onImageCalculationSpilled(id: Int, listId: ThumbnailListIds) =
-        waitingControls.extract(IFuncOneArg { item: IThumbnailControl -> item.id == id && item.listId === listId }) // remove control from waiting list
+        waitingControls.extract( { item: IThumbnailControl -> item.id == id && item.listId === listId }) // remove control from waiting list
 
     /**
      * Start processing images
@@ -145,5 +141,5 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
      */
     fun stop(dataToReturn: Any?) = imagesProcessor.stop(dataToReturn)
 
-    private fun onStopProcessing(dataToReturn: Any) = stopCallback.process(dataToReturn)
+    private fun onStopProcessing(dataToReturn: Any?) = stopCallback(dataToReturn)
 }

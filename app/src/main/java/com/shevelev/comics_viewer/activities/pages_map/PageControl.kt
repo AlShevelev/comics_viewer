@@ -7,30 +7,30 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.shevelev.comics_viewer.R
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.helpers.BitmapsHelper
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.helpers.files.AppPrivateFilesHelper
 import com.shevelev.comics_viewer.dal.dto.Page
 import java.util.*
 
+/**
+ * [onChangeActivePage] Callback when active page changed (param: page index)
+ * [onZoomPage] Callback when click zoom icon (param: page index)
+ */
 class PageControl(
     activity: Activity,
     private val pageInfo: Page,
     maxPageWidth: Int,
     number: Int,
-    activePageIndex: Int,
-    onChangeActivePage: IActionOneArgs<Int>,
-    onZoomPage: IActionOneArgs<Int>) : LinearLayout(activity) {
-    private val pageIndex: Int
-    private val activePageIndex: Int
-    private val onChangeActivePage // Callback when active page changed (param: page index)
-        : IActionOneArgs<Int>
-    private val onZoomPage // Callback when click zoom icon (param: page index)
-        : IActionOneArgs<Int>
+    private val activePageIndex: Int,
+    private val onChangeActivePage: (Int) -> Unit,
+    private val onZoomPage: (Int) -> Unit) : LinearLayout(activity) {
+
+    private val pageIndex: Int = number - 1
+
     private var lastClickMoment: Date? = null
     private fun onClick(view: View) {
-        if (needChangeCurrentPage()) onChangeActivePage.process(pageIndex) // change active page
+        if (needChangeCurrentPage()) onChangeActivePage(pageIndex) // change active page
     }
 
     /**
@@ -57,14 +57,10 @@ class PageControl(
     }
 
     private fun onZoomIconClick(view: View) {
-        onZoomPage.process(pageIndex)
+        onZoomPage(pageIndex)
     }
 
     init {
-        pageIndex = number - 1
-        this.activePageIndex = activePageIndex
-        this.onChangeActivePage = onChangeActivePage
-        this.onZoomPage = onZoomPage
         View.inflate(activity, R.layout.pages_map_one_page, this)
         val pageText = findViewById<View>(R.id.pageText) as TextView
         pageText.text = String.format(activity.resources.getString(R.string.pageTitle), number)

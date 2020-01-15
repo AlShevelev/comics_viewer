@@ -5,8 +5,6 @@ import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.dal.dto.Comics
 import com.shevelev.comics_viewer.dal.dto.Page
@@ -44,7 +42,7 @@ internal class ComicsDal : IComicsDal {
         return try {
             var dbResult: ArrayList<DbComics?>? = null
             dbResult = if (returnAll) Select().from(DbComics::class.java).execute() else Select().from(DbComics::class.java).where("IsHidden = ?", 0).execute() // boolean maps to integer!
-            CollectionsHelper.transform(dbResult, IFuncOneArg { item: DbComics? -> Comics(item!!) })
+            CollectionsHelper.transform(dbResult) { item: DbComics? -> Comics(item!!) }
         } catch (ex: Exception) {
             Log.e("CV", "exception", ex)
             null
@@ -72,7 +70,7 @@ internal class ComicsDal : IComicsDal {
     override fun getPages(comicsId: Long): List<Page>? {
         return try {
             val dbResult = Select().from(DbPage::class.java).where("Comics = ?", comicsId).execute<DbPage>()
-            CollectionsHelper.transform(dbResult, IFuncOneArg { item: DbPage? -> Page(item!!) })
+            CollectionsHelper.transform(dbResult) { item: DbPage? -> Page(item!!) }
         } catch (ex: Exception) {
             Log.e("CV", "exception", ex)
             null
@@ -80,25 +78,25 @@ internal class ComicsDal : IComicsDal {
     }
 
     override fun updateLastViewedPageIndex(comicsId: Long, lastViewedPageIndex: Int): Boolean {
-        return update(comicsId, IActionOneArgs { comics: DbComics -> comics.lastViewedPageIndex = lastViewedPageIndex })
+        return update(comicsId, { comics: DbComics -> comics.lastViewedPageIndex = lastViewedPageIndex })
     }
 
     override fun updateLastViewDate(comicsId: Long, lastViewDate: Date?): Boolean {
-        return update(comicsId, IActionOneArgs { comics: DbComics -> comics.lastViewDate = lastViewDate })
+        return update(comicsId, { comics: DbComics -> comics.lastViewDate = lastViewDate })
     }
 
     override fun updateNameAndHidden(comicsId: Long, name: String?, isHidden: Boolean): Boolean {
-        return update(comicsId, IActionOneArgs { comics: DbComics ->
+        return update(comicsId) { comics: DbComics ->
             comics.name = name
             comics.isHidden = isHidden
-        })
+        }
     }
 
-    private fun update(comicsId: Long, processor: IActionOneArgs<DbComics>): Boolean {
+    private fun update(comicsId: Long, processor: (DbComics) -> Unit): Boolean {
         ActiveAndroid.beginTransaction()
         return try {
             val dbComics: DbComics = Model.load(DbComics::class.java, comicsId)
-            processor.process(dbComics)
+            processor(dbComics)
             dbComics.save()
             ActiveAndroid.setTransactionSuccessful()
             true

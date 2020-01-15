@@ -15,8 +15,6 @@ import com.shevelev.comics_viewer.activities.pages_map.PagesMapActivity
 import com.shevelev.comics_viewer.common.dialogs.GotoPageDialog
 import com.shevelev.comics_viewer.common.dialogs.GotoPageDialog.InputModel
 import com.shevelev.comics_viewer.common.dialogs.GotoPageDialog.OutputModel
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 import com.shevelev.comics_viewer.dal.DalFacade
 
 /**
@@ -39,8 +37,8 @@ class CurlActivity : Activity() {
         curlView!!.setBackgroundColor(-0xdfd7d0)
 
         curlView!!.setCallbackHandlers(
-            IActionOneArgs { pageIndex: Int -> onPageChanged(pageIndex) },
-            IActionZeroArgs { onShowMenu() }
+            { pageIndex: Int -> onPageChanged(pageIndex) },
+            { onShowMenu() }
         )
 
         // This is something somewhat experimental. Before uncommenting next
@@ -98,7 +96,7 @@ class CurlActivity : Activity() {
     private fun processGotoPage() {
         val comics = DalFacade.Comics.getComicsById(comicsId)
         val gotoPageDialog = GotoPageDialog(this,
-            IActionOneArgs { result: OutputModel -> if (result.pageNumber != comics!!.lastViewedPageIndex) curlView!!.setCurrentPageIndex(result.pageNumber) },
+            { result: OutputModel -> if (result.pageNumber != comics!!.lastViewedPageIndex) curlView!!.setCurrentPageIndex(result.pageNumber) },
             InputModel(comics!!.lastViewedPageIndex, comics.totalPages))
         gotoPageDialog.show()
     }

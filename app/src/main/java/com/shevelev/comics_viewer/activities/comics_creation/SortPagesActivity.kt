@@ -18,7 +18,6 @@ import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.ActivityCodes
 import com.shevelev.comics_viewer.activities.ActivityResultCodes
 import com.shevelev.comics_viewer.activities.UserActionsManager
-import com.shevelev.comics_viewer.activities.comics_creation.SortPagesActivity
 import com.shevelev.comics_viewer.activities.comics_creation.drag_lists.*
 import com.shevelev.comics_viewer.activities.comics_creation.thumbnails.ThumbnailListIds
 import com.shevelev.comics_viewer.activities.comics_creation.thumbnails.ThumbnailManager
@@ -26,8 +25,6 @@ import com.shevelev.comics_viewer.activities.view_comics.ActivityParamCodes
 import com.shevelev.comics_viewer.common.ListViewHelper
 import com.shevelev.comics_viewer.common.custom_controls.ProgressBar
 import com.shevelev.comics_viewer.common.dialogs.ZoomedPagePreviewDialog
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
@@ -91,7 +88,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
             val textView = view.findViewById<View>(R.id.rowTextView) as TextView
             textPaint = textView.paint // Paint of text area for measuring text size
             listItemDragCreator = ListItemDragCreator(displaySize!!, textPaint!!)
-            thumbnailManager = ThumbnailManager(listItemDragCreator!!, IActionOneArgs { dataToReturn: Any -> onStopProcessingThumbnails(dataToReturn) })
+            thumbnailManager = ThumbnailManager(listItemDragCreator!!, { dataToReturn: Any? -> onStopProcessingThumbnails(dataToReturn) })
         }
 
         protected override fun doInBackground(vararg params: Boolean?): Void? {
@@ -99,8 +96,8 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
                 if (cancelationToken.isCanceled()) return null
                 firstTime = params[0]!!
                 val calculatedItems = createListsItems(pathToFolder)
-                items1 = CollectionsHelper.transform(calculatedItems, IFuncOneArg { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList() // Equals lists
-                items2 = CollectionsHelper.transform(calculatedItems, IFuncOneArg { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList()
+                items1 = CollectionsHelper.transform(calculatedItems, { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList() // Equals lists
+                items2 = CollectionsHelper.transform(calculatedItems, { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList()
                 thumbnailManager!!.warmUpCaches(items1!!)
                 isSuccess = true
             } catch (e: Exception) {
@@ -114,8 +111,8 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
             if (cancelationToken.isCanceled()) return
             if (isSuccess) {
                 thumbnailManager!!.start()
-                myItemsListAdapter1 = ListDragAdapter(this@SortPagesActivity, items1!!, R.color.drag, thumbnailManager!!, IActionOneArgs { dragInfo: ListItemDragingInfo -> onDragToList(dragInfo) }, ThumbnailListIds.LEFT)
-                myItemsListAdapter2 = ListDragAdapter(this@SortPagesActivity, items2!!, R.color.drag, thumbnailManager!!, IActionOneArgs { dragInfo: ListItemDragingInfo -> onDragToList(dragInfo) }, ThumbnailListIds.RIGHT)
+                myItemsListAdapter1 = ListDragAdapter(this@SortPagesActivity, items1!!, R.color.drag, thumbnailManager!!, { dragInfo: ListItemDragingInfo -> onDragToList(dragInfo) }, ThumbnailListIds.LEFT)
+                myItemsListAdapter2 = ListDragAdapter(this@SortPagesActivity, items2!!, R.color.drag, thumbnailManager!!, { dragInfo: ListItemDragingInfo -> onDragToList(dragInfo) }, ThumbnailListIds.RIGHT)
                 listView1!!.adapter = myItemsListAdapter1
                 listView2!!.adapter = myItemsListAdapter2
             } else ToastsHelper.Show(
@@ -162,8 +159,8 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
         listView2!!.dividerHeight = 0
         area1 = findViewById<View>(R.id.panelLeft) as LinearLayoutDrag
         area2 = findViewById<View>(R.id.panelRight) as LinearLayoutDrag
-        area1!!.setOnDragListener(AreaOnDragListener(IActionOneArgs { dragInfo: ListItemDragingInfo -> onDragToArea(dragInfo) }))
-        area2!!.setOnDragListener(AreaOnDragListener(IActionOneArgs { dragInfo: ListItemDragingInfo -> onDragToArea(dragInfo) }))
+        area1!!.setOnDragListener(AreaOnDragListener( { dragInfo: ListItemDragingInfo -> onDragToArea(dragInfo) }))
+        area2!!.setOnDragListener(AreaOnDragListener( { dragInfo: ListItemDragingInfo -> onDragToArea(dragInfo) }))
         area1!!.listView = listView1
         area2!!.listView = listView2
         val listener = ListItemOnClickTouchListener(this@SortPagesActivity)
@@ -279,7 +276,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
     /**
      * When thumbnail processing stopedv - finish work
      */
-    private fun onStopProcessingThumbnails(dataToReturn: Any) {
+    private fun onStopProcessingThumbnails(dataToReturn: Any?) {
         if (dataToReturn as Boolean) closeOk() else closeCancel() // Close activity if Back pressed
     }
 
@@ -300,7 +297,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
         if (!isInited) return
         val idsList = CollectionsHelper.transform(
             CollectionsHelper.where(items1, Predicate { item: ListItemDrag -> item.isVisibile }),
-             IFuncOneArg { item: ListItemDrag -> item.id })
+             { item: ListItemDrag -> item.id })
         val ids = IntArray(idsList!!.size)
         for (i in ids.indices) ids[i] = idsList[i]
         val intent = Intent() // Choose folder and close activity

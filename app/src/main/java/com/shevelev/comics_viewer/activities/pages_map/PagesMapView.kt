@@ -7,7 +7,6 @@ import android.widget.ListView
 import android.widget.RelativeLayout
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.common.ListViewHelper
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.structs.Size
 import com.shevelev.comics_viewer.dal.dto.Comics
 import com.shevelev.comics_viewer.dal.dto.Page
@@ -16,15 +15,13 @@ class PagesMapView(
     context: Context?,
     comics: Comics,
     pages: List<Page>,
-    onChangeActivePage: IActionOneArgs<Int>,
-    onZoomPage: IActionOneArgs<Int>) : RelativeLayout(context) {
+    private val onChangeActivePage: (Int) -> Unit,
+    private val onZoomPage: (Int) -> Unit) : RelativeLayout(context) {
     private var parentSize: Size? = null
     private var pagesMapAdapter: PagesMapAdapter? = null
     private var activePageIndex: Int
     private val pages: List<Page>
     private val pagesList: ListView
-    private val onChangeActivePage: IActionOneArgs<Int>
-    private val onZoomPage: IActionOneArgs<Int>
     val size: Size
         get() = Size(width, height)
 
@@ -59,8 +56,6 @@ class PagesMapView(
     init {
         activePageIndex = comics.lastViewedPageIndex
         this.pages = pages
-        this.onChangeActivePage = onChangeActivePage
-        this.onZoomPage = onZoomPage
         View.inflate(context, R.layout.activity_pages_map, this)
         pagesList = findViewById<View>(R.id.pagesList) as ListView
         pagesList.divider = null

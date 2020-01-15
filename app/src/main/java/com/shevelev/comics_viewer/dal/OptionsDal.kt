@@ -5,7 +5,6 @@ import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.dal.dto.Option
 import com.shevelev.comics_viewer.dal.entities.DbOption
@@ -69,7 +68,7 @@ class OptionsDal : IOptionsDal {
     override val all: List<Option>?
         get() = try {
             val dbResult = Select().from(DbOption::class.java).execute<DbOption>()
-            CollectionsHelper.transform(dbResult, IFuncOneArg { item: DbOption? -> Option(item!!) })
+            CollectionsHelper.transform(dbResult) { item: DbOption? -> Option(item!!) }
         } catch (ex: Exception) {
             Log.e("CV", "exception", ex)
             null

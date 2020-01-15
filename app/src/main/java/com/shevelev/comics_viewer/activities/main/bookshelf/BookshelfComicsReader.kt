@@ -9,9 +9,6 @@ import com.shevelev.comics_viewer.activities.main.comics_filters.IComicsFilter
 import com.shevelev.comics_viewer.comics_workers.CoverCreator
 import com.shevelev.comics_viewer.comics_workers.IPreviewCreator
 import com.shevelev.comics_viewer.comics_workers.PreviewCreator
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.helpers.BitmapsHelper
 import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.AppPrivateFilesHelper
@@ -23,8 +20,8 @@ import com.shevelev.comics_viewer.common.structs.Size
 class BookshelfComicsReader(
     // source of comics
     private val comicsFilter: IComicsFilter,
-    private val beforeExecute: IActionZeroArgs,
-    private val afterExecute: IActionOneArgs<List<BookshelfComicsInfo>?>,
+    private val beforeExecute: () -> Unit,
+    private val afterExecute: (List<BookshelfComicsInfo>?) -> Unit,
     clientSize: Size) : AsyncTask<Void?, Void?, Void?>() {
 
     private var readComics: List<BookshelfComicsInfo>? = null
@@ -34,7 +31,7 @@ class BookshelfComicsReader(
     protected override fun doInBackground(vararg params: Void?): Void? {
         try {
             val comics = comicsFilter.comics
-            readComics = if (comics != null) CollectionsHelper.transform(comics, IFuncOneArg { item: BookcaseComics ->
+            readComics = if (comics != null) CollectionsHelper.transform(comics, { item: BookcaseComics ->
                 BookshelfComicsInfo(
                     item.id,
                     item.displayName!!,
@@ -59,11 +56,11 @@ class BookshelfComicsReader(
 
     override fun onPreExecute() {
         super.onPreExecute()
-        beforeExecute.process()
+        beforeExecute()
     }
 
     override fun onPostExecute(result: Void?) {
         super.onPostExecute(result)
-        afterExecute.process(readComics)
+        afterExecute(readComics)
     }
 }

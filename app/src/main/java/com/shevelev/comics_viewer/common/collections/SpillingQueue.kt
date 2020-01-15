@@ -1,6 +1,5 @@
 package com.shevelev.comics_viewer.common.collections
 
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import java.util.*
 
 /**
@@ -27,9 +26,9 @@ class SpillingQueue<E>(private val maxLen: Int) {
      * @param condition
      * @return item or null if not found
      */
-    operator fun get(condition: IFuncOneArg<E, Boolean>): E? {
+    operator fun get(condition: (E) -> Boolean): E? {
         if (len == 0) return null
-        for (item in internalList) if (condition.process(item)) return item
+        for (item in internalList) if (condition(item)) return item
         return null
     }
 
@@ -38,12 +37,12 @@ class SpillingQueue<E>(private val maxLen: Int) {
      * @param condition
      * @return item or null if not found
      */
-    fun getAndMoveToHead(condition: IFuncOneArg<E, Boolean>): E? {
+    fun getAndMoveToHead(condition: (E) -> Boolean): E? {
         if (len == 0) return null
         var result: E? = null
         var index = 0
         for (item in internalList) {
-            if (condition.process(item)) {
+            if (condition(item)) {
                 result = item
                 break
             }

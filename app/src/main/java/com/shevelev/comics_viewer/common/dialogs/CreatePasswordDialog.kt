@@ -9,8 +9,6 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
 import com.shevelev.comics_viewer.R
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 
 /**
  * Dialog for setDiskItems/edit comics password
@@ -28,13 +26,13 @@ class CreatePasswordDialog : CommonDialogBase<CreatePasswordDialog.Model, Create
 
     constructor(
         parentActivity: Activity?,
-        okAction: IActionOneArgs<Model>,
-        cancelAction: IActionZeroArgs?
+        okAction: (Model) -> Unit,
+        cancelAction: (() -> Unit)?
     ) : super(parentActivity!!, okAction, cancelAction, R.string.dialog_create_password_title, R.layout.dialog_create_password, Model("", "")) {}
     constructor(
         parentActivity: Activity?,
-        okAction: IActionOneArgs<Model>,
-        cancelAction: IActionZeroArgs?,
+        okAction: (Model) -> Unit,
+        cancelAction: (() -> Unit)?,
         titleId: Int,
         layoutId: Int,
         password: String) : super(parentActivity!!, okAction, cancelAction, titleId, layoutId, Model(password, "")) {

@@ -1,6 +1,5 @@
 package com.shevelev.comics_viewer.common.collections
 
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import java.util.*
 
 /**
@@ -20,9 +19,9 @@ open class DynamicList<E> {
      * Get first item by condition and remove it from list
      * @return item or null if not found
      */
-    fun extract(condition: IFuncOneArg<E, Boolean>): E? {
+    fun extract(condition: (E) -> Boolean): E? {
         for (item in internalList) {
-            if (condition.process(item)) {
+            if (condition(item)) {
                 internalList.remove(item)
                 return item
             }
@@ -33,8 +32,8 @@ open class DynamicList<E> {
     /**
      * Is exists image with such conditions
      */
-    fun isExists(condition: IFuncOneArg<E, Boolean>): Boolean {
-        for (item in internalList) if (condition.process(item)) return true
+    fun isExists(condition: (E) -> Boolean): Boolean {
+        for (item in internalList) if (condition(item)) return true
         return false
     }
 }

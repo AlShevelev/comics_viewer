@@ -10,14 +10,13 @@ import android.widget.TextView
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.bookshelf.BookshelfComicsInfo
 import com.shevelev.comics_viewer.activities.main.bookshelf.ComicsClickListener
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.helpers.StringsHelper
 
 class ComicsControl(
     activity: Activity,
     private val comicsInfo: BookshelfComicsInfo,
     maxComicsWidth: Int,
-    onComicsChoosen: IActionOneArgs<Long>
+    onComicsChoosen: (Long) -> Unit
 ) : LinearLayout(activity) {
     private fun createComicsTitle(sourceTitle: String): String {
         return StringsHelper.cutToLength(sourceTitle, MAX_TEXT_LEN)

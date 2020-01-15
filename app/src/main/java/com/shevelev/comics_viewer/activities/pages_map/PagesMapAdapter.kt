@@ -10,7 +10,6 @@ import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.bookshelf.ViewHolders.PagesHolder
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.structs.Size
 import com.shevelev.comics_viewer.dal.dto.Page
 import java.util.*
@@ -19,17 +18,15 @@ class PagesMapAdapter(
     private val activity: Activity,
     private val pages: List<Page>,
     activePageIndex: Int,
-    onChangeActivePage: IActionOneArgs<Int>,
-    onZoomPage: IActionOneArgs<Int>) : BaseAdapter() {
-    private var parentSize // Size of content view
-        : Size? = null
+    private val onChangeActivePage: (Int) -> Unit,
+    private val onZoomPage: (Int) -> Unit) : BaseAdapter() {
+    // Size of content view
+    private var parentSize : Size? = null
     private var pagesInRow = 0 // Max pages in row = 0
     private var rowsCountMin = 0
     private var maxPageWidth = 0
-    private val pagesCount: Int
+    private val pagesCount: Int = pages.size
     private var activePageIndex: Int
-    private val onChangeActivePage: IActionOneArgs<Int>
-    private val onZoomPage: IActionOneArgs<Int>
     fun setActivePageIndex(activePageIndex: Int) {
         this.activePageIndex = activePageIndex
     }
@@ -138,10 +135,7 @@ class PagesMapAdapter(
     }
 
     init {
-        pagesCount = pages.size
         this.activePageIndex = activePageIndex
-        this.onChangeActivePage = onChangeActivePage
-        this.onZoomPage = onZoomPage
         inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     }
 }

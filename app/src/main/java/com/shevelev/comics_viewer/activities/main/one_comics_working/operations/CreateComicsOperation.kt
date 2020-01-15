@@ -7,7 +7,6 @@ import com.shevelev.comics_viewer.activities.comics_creation.SortPagesActivity.C
 import com.shevelev.comics_viewer.activities.main.comics_filters.ComicsViewMode
 import com.shevelev.comics_viewer.activities.main.one_comics_working.IOneComicsActivity
 import com.shevelev.comics_viewer.comics_workers.ComicsCreator
-import com.shevelev.comics_viewer.common.func_interfaces.IActionThreeArgs
 import com.shevelev.comics_viewer.common.helpers.ScreenHelper
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.rhea.RheaFacade
@@ -21,9 +20,9 @@ class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase
     private var comicsCreator: ComicsCreator? = null
     fun preStart(pathToFolder: String) {
 
-        chooseComicsName = ChooseComicsName(context, IActionThreeArgs {
+        chooseComicsName = ChooseComicsName(context) {
             name: String, isPrivate: Boolean, pathToComicsFolder: String -> onComicsNameChoose(name, isPrivate, pathToComicsFolder)
-        })
+        }
         chooseComicsName!!.startCreate(pathToFolder) // Choose comics name
     }
 

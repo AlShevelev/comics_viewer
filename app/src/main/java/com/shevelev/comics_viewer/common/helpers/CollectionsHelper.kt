@@ -1,7 +1,5 @@
 package com.shevelev.comics_viewer.common.helpers
 
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import com.shevelev.comics_viewer.common.threads.ICancelationTokenRead
 import java.util.*
 import java.util.function.Predicate
@@ -26,7 +24,7 @@ object CollectionsHelper {
         return result
     }
 
-    fun <TSource, TTarget> transform(source: List<TSource>?, func: IFuncOneArg<TSource, TTarget>): List<TTarget>? {
+    fun <TSource, TTarget> transform(source: List<TSource>?, func: (TSource) -> TTarget): List<TTarget>? {
         return transform(source, func, null)
     }
 
@@ -34,13 +32,13 @@ object CollectionsHelper {
      * Transfrom one list to another (wiht cancelaction)
      * @param cancelationToken - cancelation token to abort operation in other thread
      */
-    fun <TSource, TTarget> transform(source: List<TSource>?, func: IFuncOneArg<TSource, TTarget>, cancelationToken: ICancelationTokenRead?): List<TTarget>? {
+    fun <TSource, TTarget> transform(source: List<TSource>?, func: (TSource) -> TTarget, cancelationToken: ICancelationTokenRead?): List<TTarget>? {
         if (cancelationToken != null && cancelationToken.isCanceled()) return null
         if (source == null) return null
         val result = ArrayList<TTarget>(source.size)
         for (s in source) {
             if (cancelationToken != null && cancelationToken.isCanceled()) break
-            result.add(func.process(s))
+            result.add(func(s))
         }
         return result
     }
@@ -51,8 +49,8 @@ object CollectionsHelper {
      * @param <TSource> - type of collection's items
      * @param action - processing action
     </TSource> */
-    fun <TSource> forEach(source: List<TSource>, action: IActionOneArgs<TSource>) {
-        for (s in source) action.process(s)
+    fun <TSource> forEach(source: List<TSource>, action: (TSource) -> Unit) {
+        for (s in source) action(s)
     }
 
     /**

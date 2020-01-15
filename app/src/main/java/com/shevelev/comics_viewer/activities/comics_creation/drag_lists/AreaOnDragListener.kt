@@ -4,12 +4,11 @@ import android.view.DragEvent
 import android.view.View
 import android.view.View.OnDragListener
 import android.widget.ListView
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 
 /**
  * Listener for dragging on area (not into other list)
  */
-class AreaOnDragListener(private val _onDrag: IActionOneArgs<ListItemDragingInfo>?) : OnDragListener {
+class AreaOnDragListener(private val _onDrag: ((ListItemDragingInfo) -> Unit)?) : OnDragListener {
     override fun onDrag(v: View, event: DragEvent): Boolean {
         if (event.action == DragEvent.ACTION_DROP) {
             val passObj = event.localState as PassObjectDrag
@@ -21,7 +20,7 @@ class AreaOnDragListener(private val _onDrag: IActionOneArgs<ListItemDragingInfo
             val newParent = v as LinearLayoutDrag
             val destAdapter = newParent.listView!!.adapter as ListDragAdapter
             val destList = destAdapter.list
-            _onDrag?.process(ListItemDragingInfo(passedItem, srcList, destList, srcAdapter, destAdapter, 0))
+            _onDrag?.invoke(ListItemDragingInfo(passedItem, srcList, destList, srcAdapter, destAdapter, 0))
             //smooth scroll to bottom
             newParent.listView!!.smoothScrollToPosition(destAdapter.count - 1)
         }

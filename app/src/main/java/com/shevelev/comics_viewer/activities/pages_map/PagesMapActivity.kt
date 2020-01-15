@@ -11,7 +11,6 @@ import com.shevelev.comics_viewer.activities.ActivityCodes
 import com.shevelev.comics_viewer.activities.ActivityResultCodes
 import com.shevelev.comics_viewer.activities.view_comics.ActivityParamCodes
 import com.shevelev.comics_viewer.common.dialogs.ZoomedPagePreviewDialog
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 import com.shevelev.comics_viewer.common.helpers.files.AppPrivateFilesHelper
 import com.shevelev.comics_viewer.dal.DalFacade
 import com.shevelev.comics_viewer.dal.dto.Page
@@ -30,7 +29,13 @@ class PagesMapActivity : AppCompatActivity() {
         val comics = DalFacade.Comics.getComicsById(comicsId)
         pages = DalFacade.Comics.getPages(comicsId)
         activePageIndex = comics!!.lastViewedPageIndex
-        view = PagesMapView(this, comics, pages!!, IActionOneArgs { newActivePageIndex: Int -> onChangeActivePage(newActivePageIndex) }, IActionOneArgs { pageIndex: Int -> onZoomPage(pageIndex) })
+
+        view = PagesMapView(
+            this,
+            comics,
+            pages!!,
+            { newActivePageIndex: Int -> onChangeActivePage(newActivePageIndex) },
+            { pageIndex: Int -> onZoomPage(pageIndex) })
         setContentView(view)
     }
 

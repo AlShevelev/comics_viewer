@@ -5,8 +5,6 @@ import com.shevelev.comics_viewer.activities.main.one_comics_working.IOneComicsA
 import com.shevelev.comics_viewer.activities.view_comics.CurlActivity
 import com.shevelev.comics_viewer.common.dialogs.CreatePasswordDialog
 import com.shevelev.comics_viewer.common.dialogs.EnterPasswordDialog
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
-import com.shevelev.comics_viewer.common.func_interfaces.IActionZeroArgs
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.dal.DalFacade
 import com.shevelev.comics_viewer.dal.dto.Option
@@ -59,12 +57,12 @@ class ViewComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(a
         ToastsHelper.Show(R.string.private_comics_create_password_message, ToastsHelper.Position.Bottom)
         val dialog = CreatePasswordDialog(
             context,
-            IActionOneArgs { result: CreatePasswordDialog.Model ->
+            { result: CreatePasswordDialog.Model ->
                 OptionsFacade.LongLivings.addOrUpdate(arrayOf(Option(OptionsKeys.Password, result.password), Option(OptionsKeys.PasswordsHint, result.hint)))
                 OptionsFacade.ShortLivings.addOrUpdate(arrayOf(Option(OptionsKeys.PasswordEntered, OptionsValues.True)))
                 startView(comicsId)
             },
-            IActionZeroArgs {})
+            { })
         dialog.show()
     }
 
@@ -74,13 +72,13 @@ class ViewComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(a
         val hint = OptionsFacade.LongLivings[OptionsKeys.PasswordsHint]
         val dialog = EnterPasswordDialog(
             context,
-            IActionOneArgs { result: String ->
+            { result: String ->
                 if (result == password) {
                     OptionsFacade.ShortLivings.addOrUpdate(arrayOf(Option(OptionsKeys.PasswordEntered, OptionsValues.True)))
                     startView(comicsId)
                 } else ToastsHelper.Show(R.string.message_invalid_password, ToastsHelper.Position.Center)
             },
-            IActionZeroArgs {}, hint!!)
+            { }, hint!!)
         dialog.show()
     }
 }

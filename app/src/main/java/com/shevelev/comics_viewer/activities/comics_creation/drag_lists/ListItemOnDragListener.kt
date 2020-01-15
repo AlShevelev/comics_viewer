@@ -5,7 +5,6 @@ import android.view.DragEvent
 import android.view.View
 import android.view.View.OnDragListener
 import android.widget.ListView
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 
 /**
  * Listener for dragging events for item in list
@@ -13,7 +12,7 @@ import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 class ListItemOnDragListener internal constructor(
     private val _item: ListItemDrag,
     private val _dragColor: Int,
-    private val onDrag: IActionOneArgs<ListItemDragingInfo>
+    private val onDrag: (ListItemDragingInfo) -> Unit
 ) : OnDragListener {
     private var _normalColor = 0
 
@@ -38,7 +37,7 @@ class ListItemOnDragListener internal constructor(
                 val destList = destAdapter.list
                 val removeLocation = srcList.indexOf(passedItem)
                 val insertLocation = destList.indexOf(_item)
-                if (removeLocation != insertLocation) onDrag.process(ListItemDragingInfo(passedItem, srcList, destList, srcAdapter, destAdapter, insertLocation))
+                if (removeLocation != insertLocation) onDrag(ListItemDragingInfo(passedItem, srcList, destList, srcAdapter, destAdapter, insertLocation))
                 v.setBackgroundColor(_normalColor)
             }
 

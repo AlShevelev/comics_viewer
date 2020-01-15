@@ -1,6 +1,5 @@
 package com.shevelev.comics_viewer.common.collections
 
-import com.shevelev.comics_viewer.common.func_interfaces.IFuncOneArg
 import java.util.*
 
 /**
@@ -39,8 +38,8 @@ class ConcurrentSpillingStack<E>(private val maxLen: Int) {
      * Remove item from list by condition
      */
     @Synchronized
-    fun remove(condition: IFuncOneArg<E, Boolean>) {
+    fun remove(condition: (E) -> Boolean) {
         if (len == 0) return
-        for (item in internalList) if (condition.process(item)) internalList.remove(item)
+        for (item in internalList) if (condition(item)) internalList.remove(item)
     }
 }

@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.comics_creation.thumbnails.ThumbnailListIds
 import com.shevelev.comics_viewer.activities.comics_creation.thumbnails.ThumbnailManager
-import com.shevelev.comics_viewer.common.func_interfaces.IActionOneArgs
 
 /**
  * Adapter for pages sorting view
@@ -19,7 +18,7 @@ class ListDragAdapter(
     val list: MutableList<ListItemDrag>,
     private val dragColor: Int,
     private val thumbnailManager: ThumbnailManager,
-    private val onDrag: IActionOneArgs<ListItemDragingInfo>,
+    private val onDrag: (ListItemDragingInfo) -> Unit,
     private val lisId: ThumbnailListIds) : BaseAdapter() {
 
     override fun getCount(): Int {
