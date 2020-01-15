@@ -77,14 +77,17 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
 
         val oldControl = waitingControls.extract(IFuncOneArg { t: IThumbnailControl -> t.imageHashCode == thumbnailControl.imageHashCode })
         if (oldControl != null) { // ListView reuses controls, so we must remove old control and its taks
-            imagesProcessor.removeTask { t: ProducerConsumerTaskBase ->
-                if (t.kind != ProducerConsumerTaskKinds.Normal) return@removeTask false
-                val typedTask = t as ThumbnailTask
-                typedTask.id == thumbnailControl.id && typedTask.listIds === thumbnailControl.listId
-            }
+            imagesProcessor.removeTask( IFuncOneArg { t: ProducerConsumerTaskBase ->
+                if (t.kind != ProducerConsumerTaskKinds.Normal) {
+                    false
+                } else {
+                    val typedTask = t as ThumbnailTask
+                    typedTask.id == thumbnailControl.id && typedTask.listIds === thumbnailControl.listId
+                }
+            })
         }
         val imagesList = getListImages(thumbnailControl.listId) // Try to find image in our list
-        var cachedImage = imagesList.getAndMoveToHead { t: ThumbnailCalculationResult -> t.id == thumbnailControl.id }
+        var cachedImage = imagesList.getAndMoveToHead(IFuncOneArg { t: ThumbnailCalculationResult -> t.id == thumbnailControl.id })
 
         if (cachedImage != null) { // return cached image
             thumbnailControl.setThumbnail(cachedImage.pageImage)
@@ -92,7 +95,7 @@ class ThumbnailManager(private val listItemImages: IListItemDragCreatorImages, p
         }
 
         val anotherListImages = getAnotherListImages(thumbnailControl.listId) // Second attempt - in another list
-        cachedImage = anotherListImages[{ t: ThumbnailCalculationResult -> t.id == thumbnailControl.id }]
+        cachedImage = anotherListImages[IFuncOneArg { t: ThumbnailCalculationResult -> t.id == thumbnailControl.id }]
         if (cachedImage != null) {
             imagesList.push(cachedImage) // push in our list
             thumbnailControl.setThumbnail(cachedImage.pageImage) // and return cached image

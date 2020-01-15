@@ -33,8 +33,9 @@ class ChooseComicsName(
             MessageBoxHelper.createOkDialog(
                 context,
                 context.getString(R.string.message_box_cant_create_comics_title),
-                context.getString(R.string.message_box_no_imges_text)
-            ) {}.show()
+                context.getString(R.string.message_box_no_imges_text),
+                IActionZeroArgs {  }
+            ) .show()
         }
     }
 

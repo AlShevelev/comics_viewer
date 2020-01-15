@@ -24,9 +24,9 @@ class ListItemOnClickTouchListener(private val events: ISortPagesActivityItemsEv
         }
 
         var area = getAreaByTag(view, "zoomIcon", 0, 0)
-        if (area!!.isHit(touchPos)) events.onZoomItem(position) else {
+        if (area!!.isHit(touchPos!!)) events.onZoomItem(position) else {
             area = getAreaByTag(view, "visibilityIcon", 0, 0)
-            if (area!!.isHit(touchPos)) events.onSetVisibilityItem(position) else ToastsHelper.Show( // Show tag with item's name
+            if (area!!.isHit(touchPos!!)) events.onSetVisibilityItem(position) else ToastsHelper.Show( // Show tag with item's name
                 (parent.getItemAtPosition(position) as ListItemDrag).itemLongString,
                 ToastsHelper.Position.Bottom)
         }

@@ -21,7 +21,7 @@ import java.util.*
  * Comics is created here (result [Long]: id of comics in db (or null if something happend))
  */
 class ComicsCreator(
-    tag: String?,
+    tag: String,
     // Name of comics
     private val name: String,
     // Comics is private

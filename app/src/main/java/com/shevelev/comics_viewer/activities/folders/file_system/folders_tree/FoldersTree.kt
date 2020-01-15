@@ -22,14 +22,14 @@ class FoldersTree {
     }
 
     fun Create(): List<FoldersTreeItem>? {
-        if (cancelationToken.isCanceled) return null
+        if (cancelationToken.isCanceled()) return null
         if (innerState!!.tree == null) {
             val rootGetter: IFoldersTreeItemsGetter = FoldersTreeRootItemsGetter()
             val tempRootItems = rootGetter.getSubItems(cancelationToken)
             if (CollectionsHelper.isNullOrEmpty(tempRootItems)) innerState!!.tree = ArrayList(0) else {
                 innerState!!.tree = ArrayList(tempRootItems!!.size)
                 for (rootItem in tempRootItems) {
-                    if (cancelationToken.isCanceled) return null
+                    if (cancelationToken.isCanceled()) return null
                     rootItem.init()
                     if (rootItem.hasImages || rootItem.isActive) innerState!!.tree!!.add(rootItem)
                 }
@@ -39,12 +39,12 @@ class FoldersTree {
     }
 
     fun MakeFlatten(): HashMap<String, FoldersTreeItem>? {
-        if (cancelationToken.isCanceled) return null
+        if (cancelationToken.isCanceled()) return null
         if (innerState!!.tree == null) return null
         if (innerState!!.flattenTree == null) {
             innerState!!.flattenTree = HashMap()
             for (treeItem in innerState!!.tree!!) {
-                if (cancelationToken.isCanceled) return null
+                if (cancelationToken.isCanceled()) return null
                 MakeFlattenInternal(treeItem)
             }
         }
@@ -52,11 +52,11 @@ class FoldersTree {
     }
 
     private fun MakeFlattenInternal(treeItem: FoldersTreeItem) {
-        if (cancelationToken.isCanceled) return
+        if (cancelationToken.isCanceled()) return
         innerState!!.flattenTree!![treeItem.absolutePath] = treeItem
         val subItems = treeItem.subItems
         if (!CollectionsHelper.isNullOrEmpty(subItems)) for (subItem in subItems!!) {
-            if (cancelationToken.isCanceled) return
+            if (cancelationToken.isCanceled()) return
             MakeFlattenInternal(subItem)
         }
     }

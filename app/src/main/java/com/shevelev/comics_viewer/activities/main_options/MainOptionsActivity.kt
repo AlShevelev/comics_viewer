@@ -69,7 +69,7 @@ class MainOptionsActivity : Activity() {
                     setPasswordControlsVisibility()
                 } else ToastsHelper.Show(R.string.message_invalid_password, ToastsHelper.Position.Center)
             },
-            IActionZeroArgs {}, hint)
+            IActionZeroArgs {}, hint!!)
         dialog.show()
     }
 
@@ -78,7 +78,7 @@ class MainOptionsActivity : Activity() {
         val dialog = CreatePasswordDialog(
             this,
             IActionOneArgs { result: CreatePasswordDialog.Model -> OptionsFacade.LongLivings.addOrUpdate(arrayOf(Option(OptionsKeys.Password, result.password), Option(OptionsKeys.PasswordsHint, result.hint))) },
-            IActionZeroArgs {}, R.string.dialog_change_password_title, R.layout.dialog_create_password, password)
+            IActionZeroArgs {}, R.string.dialog_change_password_title, R.layout.dialog_create_password, password!!)
         dialog.show()
     }
 

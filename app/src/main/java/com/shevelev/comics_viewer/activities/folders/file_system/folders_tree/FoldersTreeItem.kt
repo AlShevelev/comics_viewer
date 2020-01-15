@@ -28,7 +28,7 @@ class FoldersTreeItem(
      * Init state of object
      */
     fun init() {
-        if(cancellationToken!!.isCanceled)
+        if(cancellationToken!!.isCanceled())
             return
 
         val  folderInfo = FolderInfo(absolutePath)
@@ -48,7 +48,7 @@ class FoldersTreeItem(
             val mutableSubItems = mutableListOf<FoldersTreeItem>()
 
             for(subItem in tempSubItems) {
-                if(cancellationToken.isCanceled)
+                if(cancellationToken.isCanceled())
                     return
 
                 subItem.init()

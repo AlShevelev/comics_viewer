@@ -80,7 +80,7 @@ class ViewComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(a
                     startView(comicsId)
                 } else ToastsHelper.Show(R.string.message_invalid_password, ToastsHelper.Position.Center)
             },
-            IActionZeroArgs {}, hint)
+            IActionZeroArgs {}, hint!!)
         dialog.show()
     }
 }

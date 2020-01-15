@@ -96,7 +96,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
 
         protected override fun doInBackground(vararg params: Boolean?): Void? {
             try {
-                if (cancelationToken.isCanceled) return null
+                if (cancelationToken.isCanceled()) return null
                 firstTime = params[0]!!
                 val calculatedItems = createListsItems(pathToFolder)
                 items1 = CollectionsHelper.transform(calculatedItems, IFuncOneArg { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList() // Equals lists
@@ -111,7 +111,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
 
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
-            if (cancelationToken.isCanceled) return
+            if (cancelationToken.isCanceled()) return
             if (isSuccess) {
                 thumbnailManager!!.start()
                 myItemsListAdapter1 = ListDragAdapter(this@SortPagesActivity, items1!!, R.color.drag, thumbnailManager!!, IActionOneArgs { dragInfo: ListItemDragingInfo -> onDragToList(dragInfo) }, ThumbnailListIds.LEFT)
@@ -136,12 +136,12 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
          */
         private fun createListsItems(pathToFolderk: String?): List<ListItemDrag> {
             val result = ArrayList<ListItemDrag>()
-            if (cancelationToken.isCanceled) return result
+            if (cancelationToken.isCanceled()) return result
             val folderInfo = FolderInfo(pathToFolder)
             val images = folderInfo.images
             val totalImages = images.size
             for (i in 0 until totalImages) {
-                if (cancelationToken.isCanceled) break
+                if (cancelationToken.isCanceled()) break
                 result.add(listItemDragCreator!!.create(images[i]))
             }
             return result

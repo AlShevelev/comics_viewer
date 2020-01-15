@@ -26,7 +26,7 @@ class ThumbnailProcessor (
      * Calculate image
      */
     @Throws(InterruptedException::class)
-    override fun processTask(task: ProducerConsumerTaskBase): ProducerConsumerTaskProcessingResultBase? {
+    override fun processTask(task: ProducerConsumerTaskBase?): ProducerConsumerTaskProcessingResultBase? {
         return try {
             val thumbnailTask = task as ThumbnailTask
             val image = listItemImages.getPageImage(thumbnailTask.fullPathToImageFile)
@@ -37,21 +37,21 @@ class ThumbnailProcessor (
         }
     }
 
-    override fun onStopProcessing(data: Any) {
+    override fun onStopProcessing(data: Any?) {
         onStopProcessingCallback.process(data)
     }
 
-    override fun onTaskProcessed(result: ProducerConsumerTaskProcessingResultBase) {
+    override fun onTaskProcessed(result: ProducerConsumerTaskProcessingResultBase?) {
         val taskResult = result as ThumbnailTaskResult
         onTaskProcessedCallback.process(taskResult.id, taskResult.listIds, taskResult.pageImage)
     }
 
-    override fun onTaskError(task: ProducerConsumerTaskBase) {
+    override fun onTaskError(task: ProducerConsumerTaskBase?) {
         val taskResult = task as ThumbnailTask
         onTaskErrorCallback.process(taskResult.id, taskResult.listIds)
     }
 
-    override fun onTaskSpilled(task: ProducerConsumerTaskBase) {
+    override fun onTaskSpilled(task: ProducerConsumerTaskBase?) {
         val taskResult = task as ThumbnailTask
         onTaskSpilledCallback.process(taskResult.id, taskResult.listIds)
     }

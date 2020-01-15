@@ -35,11 +35,11 @@ object CollectionsHelper {
      * @param cancelationToken - cancelation token to abort operation in other thread
      */
     fun <TSource, TTarget> transform(source: List<TSource>?, func: IFuncOneArg<TSource, TTarget>, cancelationToken: ICancelationTokenRead?): List<TTarget>? {
-        if (cancelationToken != null && cancelationToken.isCanceled) return null
+        if (cancelationToken != null && cancelationToken.isCanceled()) return null
         if (source == null) return null
         val result = ArrayList<TTarget>(source.size)
         for (s in source) {
-            if (cancelationToken != null && cancelationToken.isCanceled) break
+            if (cancelationToken != null && cancelationToken.isCanceled()) break
             result.add(func.process(s))
         }
         return result
