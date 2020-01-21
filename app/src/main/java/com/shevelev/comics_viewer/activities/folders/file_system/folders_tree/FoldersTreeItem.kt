@@ -2,7 +2,6 @@ package com.shevelev.comics_viewer.activities.folders.file_system.folders_tree
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
 import com.shevelev.comics_viewer.common.threads.ICancelationTokenRead
 
@@ -33,7 +32,7 @@ class FoldersTreeItem(
 
         val  folderInfo = FolderInfo(absolutePath)
 
-        hasImages=!CollectionsHelper.isNullOrEmpty(folderInfo.images)
+        hasImages=!folderInfo.images.isNullOrEmpty()
 
         val itemsGetter = FoldersTreeCommonItemsGetter(folderInfo);
         val tempSubItems = itemsGetter.getSubItems(cancellationToken) ?: listOf()
@@ -41,7 +40,7 @@ class FoldersTreeItem(
         if(cancellationToken.isCanceled())
             return
 
-        if(CollectionsHelper.isNullOrEmpty(tempSubItems))           // It's a leaf
+        if(tempSubItems.isNullOrEmpty())           // It's a leaf
             subItems=null;
         else
         {
@@ -64,7 +63,7 @@ class FoldersTreeItem(
     }
 
     private fun calculateIsActive(): Boolean {
-        if(CollectionsHelper.isNullOrEmpty(subItems))
+        if(subItems.isNullOrEmpty())
             return false
 
         return subItems!!.any { it.isActive || it.hasImages }

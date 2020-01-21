@@ -4,7 +4,6 @@ import android.app.Activity
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.common.dialogs.ComicsNameDialog
 import com.shevelev.comics_viewer.common.dialogs.MessageBoxHelper
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
 
 /**
@@ -22,7 +21,7 @@ class ChooseComicsName(
         this.pathToFolder = pathToFolder
 
         val folderInfo = FolderInfo(this.pathToFolder)
-        val canCreate = !CollectionsHelper.isNullOrEmpty(folderInfo.images)
+        val canCreate = folderInfo.images.isNotEmpty()
         if (canCreate) {
             startGetComicsName(folderInfo.name)
         }

@@ -1,7 +1,6 @@
 package com.shevelev.comics_viewer.activities.folders.file_system.folders_tree
 
 import android.os.Bundle
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.threads.CancelationToken
 import java.util.*
 
@@ -26,8 +25,8 @@ class FoldersTree {
         if (innerState!!.tree == null) {
             val rootGetter: IFoldersTreeItemsGetter = FoldersTreeRootItemsGetter()
             val tempRootItems = rootGetter.getSubItems(cancelationToken)
-            if (CollectionsHelper.isNullOrEmpty(tempRootItems)) innerState!!.tree = ArrayList(0) else {
-                innerState!!.tree = ArrayList(tempRootItems!!.size)
+            if (tempRootItems?.isEmpty() != false) innerState!!.tree = ArrayList(0) else {
+                innerState!!.tree = ArrayList(tempRootItems.size)
                 for (rootItem in tempRootItems) {
                     if (cancelationToken.isCanceled()) return null
                     rootItem.init()
@@ -55,7 +54,7 @@ class FoldersTree {
         if (cancelationToken.isCanceled()) return
         innerState!!.flattenTree!![treeItem.absolutePath] = treeItem
         val subItems = treeItem.subItems
-        if (!CollectionsHelper.isNullOrEmpty(subItems)) for (subItem in subItems!!) {
+        if (subItems?.isNotEmpty() == true) for (subItem in subItems) {
             if (cancelationToken.isCanceled()) return
             MakeFlattenInternal(subItem)
         }

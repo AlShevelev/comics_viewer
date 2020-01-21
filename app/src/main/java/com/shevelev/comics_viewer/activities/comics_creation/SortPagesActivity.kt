@@ -25,13 +25,13 @@ import com.shevelev.comics_viewer.activities.view_comics.ActivityParamCodes
 import com.shevelev.comics_viewer.common.ListViewHelper
 import com.shevelev.comics_viewer.common.custom_controls.ProgressBar
 import com.shevelev.comics_viewer.common.dialogs.ZoomedPagePreviewDialog
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
+import com.shevelev.comics_viewer.common.helpers.filterOrNull
+import com.shevelev.comics_viewer.common.helpers.mapOrNull
 import com.shevelev.comics_viewer.common.structs.Size
 import com.shevelev.comics_viewer.common.threads.CancelationToken
 import java.util.*
-import java.util.function.Predicate
 
 /**
  * Activity for sorting pages on comics creation
@@ -96,8 +96,10 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
                 if (cancelationToken.isCanceled()) return null
                 firstTime = params[0]!!
                 val calculatedItems = createListsItems(pathToFolder)
-                items1 = CollectionsHelper.transform(calculatedItems, { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList() // Equals lists
-                items2 = CollectionsHelper.transform(calculatedItems, { i: ListItemDrag -> i }, cancelationToken)!!.toMutableList()
+
+                items1 = calculatedItems.mapOrNull(cancelationToken) { it }!!.toMutableList()
+                items2 = calculatedItems.mapOrNull(cancelationToken) { it }!!.toMutableList()
+
                 thumbnailManager!!.warmUpCaches(items1!!)
                 isSuccess = true
             } catch (e: Exception) {
@@ -295,9 +297,11 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
      */
     private fun closeOk() {
         if (!isInited) return
-        val idsList = CollectionsHelper.transform(
-            CollectionsHelper.where(items1, Predicate { item: ListItemDrag -> item.isVisibile }),
-             { item: ListItemDrag -> item.id })
+
+        val idsList = items1
+            .filterOrNull { item: ListItemDrag -> item.isVisibile }
+            .mapOrNull { it.id }
+
         val ids = IntArray(idsList!!.size)
         for (i in ids.indices) ids[i] = idsList[i]
         val intent = Intent() // Choose folder and close activity

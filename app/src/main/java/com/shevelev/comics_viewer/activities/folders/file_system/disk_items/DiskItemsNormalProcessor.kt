@@ -1,8 +1,8 @@
 package com.shevelev.comics_viewer.activities.folders.file_system.disk_items
 
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.DiskItemInfo
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
+import com.shevelev.comics_viewer.common.helpers.mapOrNull
 import java.util.*
 
 /**
@@ -22,14 +22,14 @@ class DiskItemsNormalProcessor(private val path: String) : IDiskItemsProcessor {
             val folderInfo = FolderInfo(path)
 
             // Cut long names
-            val folders = CollectionsHelper.transform(folderInfo.subFolders,
-                { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) })
+            val folders = folderInfo.subFolders
+                .mapOrNull { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) }
 
-            val files = CollectionsHelper.transform(folderInfo.files,
-                { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) })
+            val files = folderInfo.files
+                .mapOrNull { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) }
 
-            val images = CollectionsHelper.transform(folderInfo.images,
-                { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) })
+            val images = folderInfo.images
+                .mapOrNull { t: DiskItemInfo -> DiskItemInfo(t.id, t.itemType, cutName(t.name), t.name, t.absolutePath) }
 
             mergeLists(folders!!, files!!, images!!)
         } catch (ex: Exception) {

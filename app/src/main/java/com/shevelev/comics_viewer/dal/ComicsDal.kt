@@ -5,7 +5,6 @@ import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.dal.dto.Comics
 import com.shevelev.comics_viewer.dal.dto.Page
 import com.shevelev.comics_viewer.dal.entities.DbComics
@@ -42,7 +41,7 @@ internal class ComicsDal : IComicsDal {
         return try {
             var dbResult: ArrayList<DbComics?>? = null
             dbResult = if (returnAll) Select().from(DbComics::class.java).execute() else Select().from(DbComics::class.java).where("IsHidden = ?", 0).execute() // boolean maps to integer!
-            CollectionsHelper.transform(dbResult) { item: DbComics? -> Comics(item!!) }
+            dbResult.map { Comics(it!!) }
         } catch (ex: Exception) {
             Log.e("CV", "exception", ex)
             null
@@ -70,7 +69,7 @@ internal class ComicsDal : IComicsDal {
     override fun getPages(comicsId: Long): List<Page>? {
         return try {
             val dbResult = Select().from(DbPage::class.java).where("Comics = ?", comicsId).execute<DbPage>()
-            CollectionsHelper.transform(dbResult) { item: DbPage? -> Page(item!!) }
+            dbResult.map { Page(it!!) }
         } catch (ex: Exception) {
             Log.e("CV", "exception", ex)
             null

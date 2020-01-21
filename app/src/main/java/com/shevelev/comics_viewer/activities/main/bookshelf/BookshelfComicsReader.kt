@@ -10,7 +10,6 @@ import com.shevelev.comics_viewer.comics_workers.CoverCreator
 import com.shevelev.comics_viewer.comics_workers.IPreviewCreator
 import com.shevelev.comics_viewer.comics_workers.PreviewCreator
 import com.shevelev.comics_viewer.common.helpers.BitmapsHelper
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.AppPrivateFilesHelper
 import com.shevelev.comics_viewer.common.structs.Size
 
@@ -31,13 +30,13 @@ class BookshelfComicsReader(
     protected override fun doInBackground(vararg params: Void?): Void? {
         try {
             val comics = comicsFilter.comics
-            readComics = if (comics != null) CollectionsHelper.transform(comics, { item: BookcaseComics ->
+            readComics = if (comics != null) comics.map {
                 BookshelfComicsInfo(
-                    item.id,
-                    item.displayName!!,
-                    getCover(item)!!,
-                    item.isNeedShowPrivateCover)
-            }) else {
+                    it.id,
+                    it.displayName!!,
+                    getCover(it)!!,
+                    it.isNeedShowPrivateCover)
+            } else {
                 null
             }
         } catch (ex: Exception) {

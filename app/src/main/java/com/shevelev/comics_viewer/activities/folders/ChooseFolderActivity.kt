@@ -18,11 +18,10 @@ import com.shevelev.comics_viewer.activities.folders.ChooseFolderActivity
 import com.shevelev.comics_viewer.activities.folders.file_system.disk_items.DiskItemsNormalProcessor
 import com.shevelev.comics_viewer.activities.folders.file_system.disk_items.DiskItemsRootProcessor
 import com.shevelev.comics_viewer.activities.folders.file_system.folders_tree.FoldersTree
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.DiskItemInfo
 import java.util.*
-import java.util.function.Predicate
+import com.shevelev.comics_viewer.common.helpers.firstOrNull
 
 class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
 
@@ -234,7 +233,7 @@ class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
      */
     override fun FolderCheckChanged(id: Int, isChecked: Boolean) {
         menuManager!!.setAcceptVisible(isChecked) // Show or hide accept button
-        choosedDiskItem = if (isChecked) CollectionsHelper.first(diskItems, Predicate { i: DiskItemInfo? -> i!!.id == id })  else null
+        choosedDiskItem = if (isChecked) diskItems.firstOrNull { i: DiskItemInfo? -> i!!.id == id } else null
     }
 
     /**
@@ -243,7 +242,7 @@ class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
      * @param folderWithImages true if this folder containts images
      */
     override fun FolderTaped(id: Int, folderWithImages: Boolean) {
-        val diskItem = CollectionsHelper.first(diskItems, Predicate { i: DiskItemInfo? -> i!!.id == id })
+        val diskItem = diskItems.firstOrNull { i: DiskItemInfo? -> i!!.id == id }
         menuManager!!.setAcceptVisible(false) // Hide accept button
         choosedDiskItem = null
         showDiskItems(diskItem!!.absolutePath, true) // show items of this folder

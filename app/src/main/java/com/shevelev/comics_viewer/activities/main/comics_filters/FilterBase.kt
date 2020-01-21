@@ -3,7 +3,7 @@ package com.shevelev.comics_viewer.activities.main.comics_filters
 import com.shevelev.comics_viewer.App.Main.getResourceString
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.ComicsSortInfo
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
+import com.shevelev.comics_viewer.common.helpers.sort
 import com.shevelev.comics_viewer.dal.dto.Comics
 import java.util.*
 
@@ -21,7 +21,7 @@ abstract class FilterBase(private val comicsSortInfo: ComicsSortInfo?, private v
                     resultDraft.reverse()
                 }
 
-                CollectionsHelper.sort(resultDraft, comicsSortInfo.comparator, comicsSortInfo.isReverse)
+                resultDraft = resultDraft.sort(comicsSortInfo.comparator, comicsSortInfo.isReverse).toMutableList()
                 return transform(resultDraft)
             }
             return listOf()

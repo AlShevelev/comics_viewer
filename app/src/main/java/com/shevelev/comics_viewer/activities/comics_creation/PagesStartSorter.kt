@@ -1,6 +1,5 @@
 package com.shevelev.comics_viewer.activities.comics_creation
 
-import com.shevelev.comics_viewer.common.helpers.CollectionsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.DiskItemInfo
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
 import java.util.*
@@ -21,8 +20,8 @@ object PagesStartSorter {
         val folderInfo = FolderInfo(pathToFolder)
         val images = folderInfo.images
 
-        if (CollectionsHelper.isNullOrEmpty(images)) { //Empty list if no images
-            return ArrayList()
+        if (images.isEmpty()) {
+            return listOf()
         }
         val comparator: Comparator<DiskItemInfo> = ImagesComparator()
         Collections.sort(images, comparator)
