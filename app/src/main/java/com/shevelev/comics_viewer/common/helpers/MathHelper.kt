@@ -13,7 +13,7 @@ object MathHelper {
     fun splitInterval(from: Int, to: Int, parts: Int): List<Pair<Int>> {
         require(from <= to) { "Argument:from must be less than Argument:to" }
         require(parts >= 1) { "Argument:parts can't be less than 1" }
-        val result = ArrayList<Pair<Int>>(parts)
+        val result = mutableListOf<Pair<Int>>()
         if (parts == 1 || to - from <= 1) {
             result.add(Pair(from, to))
         } else {

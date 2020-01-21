@@ -143,7 +143,7 @@ class BookshelfListAdapter(
     }
 
     private fun getComicsForShelf(shelfIndex: Int): List<BookshelfComicsInfo> {
-        val result = ArrayList<BookshelfComicsInfo>()
+        val result = mutableListOf<BookshelfComicsInfo>()
         if (books.isNotEmpty()) {
             var firstBooksIndex = shelfIndex * booksOnShelf
             var count = 0

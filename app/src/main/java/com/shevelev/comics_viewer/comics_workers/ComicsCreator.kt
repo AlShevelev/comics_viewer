@@ -55,9 +55,9 @@ class ComicsCreator(
      * Create preview and coping files of pages into private area
      * @return dictionary with ids and files names if success
      */
-    private fun createPagesAndCopyImages(pageFilesByIds: Map<Int, DiskItemInfo>, diskItemsSortedIds: IntArray): ArrayList<Page>? {
+    private fun createPagesAndCopyImages(pageFilesByIds: Map<Int, DiskItemInfo>, diskItemsSortedIds: IntArray): List<Page>? {
         val total = diskItemsSortedIds.size
-        val result = ArrayList<Page>(total)
+        val result = mutableListOf<Page>()
         for (i in 0 until total) {
             val sourceImage = pageFilesByIds[diskItemsSortedIds[i]]
             val sourceFullName = sourceImage!!.fullname
@@ -111,7 +111,7 @@ class ComicsCreator(
         }
     }
 
-    private fun saveToDb(coverFileName: String, pages: ArrayList<Page>): Long {
+    private fun saveToDb(coverFileName: String, pages: List<Page>): Long {
         val comics = Comics()
         comics.name = name
         comics.isPrivate = isPrivate

@@ -25,8 +25,10 @@ class FoldersTree {
         if (innerState!!.tree == null) {
             val rootGetter: IFoldersTreeItemsGetter = FoldersTreeRootItemsGetter()
             val tempRootItems = rootGetter.getSubItems(cancelationToken)
-            if (tempRootItems?.isEmpty() != false) innerState!!.tree = ArrayList(0) else {
-                innerState!!.tree = ArrayList(tempRootItems.size)
+            if (tempRootItems?.isEmpty() != false) {
+                innerState!!.tree = mutableListOf()
+            } else {
+                innerState!!.tree = mutableListOf()
                 for (rootItem in tempRootItems) {
                     if (cancelationToken.isCanceled()) return null
                     rootItem.init()

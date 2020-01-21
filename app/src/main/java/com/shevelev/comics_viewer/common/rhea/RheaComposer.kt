@@ -141,7 +141,7 @@ class RheaComposer : IRheaOperationComposer {
         val activityRecord = getActivityRecord(activityCode) ?: return
         activityRecord.currentState = RheaActivityStates.Active
         activityRecord.wasSaved = false
-        val completedOperations = ArrayList<RheaOperationRecord>(operations.size)
+        val completedOperations = mutableListOf<RheaOperationRecord>()
         for (operationRecord in operations) {
             if (operationRecord.activityCode == activityCode) // if operations was completed - tall about it and remove they
             {

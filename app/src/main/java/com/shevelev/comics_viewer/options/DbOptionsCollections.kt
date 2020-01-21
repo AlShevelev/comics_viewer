@@ -9,8 +9,8 @@ import java.util.*
  */
 class DbOptionsCollections : OptionsCollections() {
     override fun addOrUpdate(options: Array<Option>) {
-        val optionsToAdd = ArrayList<Option>(options.size)
-        val optionsToUpdate = ArrayList<Option>(options.size)
+        val optionsToAdd = mutableListOf<Option>()
+        val optionsToUpdate = mutableListOf<Option>()
         for (option in options) {
             if (get(option.key) == null) optionsToAdd.add(option) else optionsToUpdate.add(option)
         }

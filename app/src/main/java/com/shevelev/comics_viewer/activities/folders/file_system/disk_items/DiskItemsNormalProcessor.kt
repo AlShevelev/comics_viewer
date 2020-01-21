@@ -34,7 +34,7 @@ class DiskItemsNormalProcessor(private val path: String) : IDiskItemsProcessor {
             mergeLists(folders!!, files!!, images!!)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            ArrayList() // empty list
+            listOf()    // empty list
         }
 
     private fun cutName(name: String): String {
@@ -49,7 +49,7 @@ class DiskItemsNormalProcessor(private val path: String) : IDiskItemsProcessor {
         Collections.sort(filesList) { d1: DiskItemInfo, d2: DiskItemInfo -> d1.displayName.compareTo(d2.displayName) }
         Collections.sort(imagesList) { d1: DiskItemInfo, d2: DiskItemInfo -> d1.displayName.compareTo(d2.displayName) }
 
-        val result: MutableList<DiskItemInfo> = ArrayList(foldersList.size + filesList.size + imagesList.size)
+        val result: MutableList<DiskItemInfo> = mutableListOf()
 
         result.addAll(foldersList)
         result.addAll(imagesList) // And merging

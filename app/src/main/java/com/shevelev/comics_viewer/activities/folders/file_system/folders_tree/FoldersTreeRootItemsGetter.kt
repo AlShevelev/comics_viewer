@@ -10,7 +10,7 @@ import java.util.*
  */
 class FoldersTreeRootItemsGetter : IFoldersTreeItemsGetter {
     override fun getSubItems(cancellationToken: ICancelationTokenRead): List<FoldersTreeItem>? {
-        val result: MutableList<FoldersTreeItem> = ArrayList(2)
+        val result: MutableList<FoldersTreeItem> = mutableListOf()
         val storageState = Environment.getExternalStorageState()
 
         if (storageState != Environment.MEDIA_MOUNTED) // No mounted disks

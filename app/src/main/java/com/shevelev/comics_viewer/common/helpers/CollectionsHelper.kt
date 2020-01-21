@@ -36,7 +36,7 @@ fun <TS, TT> List<TS>?.mapOrNull(transform: (TS) -> TT): List<TT>? =
 fun <TSource, TTarget> List<TSource>?.mapOrNull(cancelationToken: ICancelationTokenRead?, func: (TSource) -> TTarget): List<TTarget>? {
     if (cancelationToken != null && cancelationToken.isCanceled()) return null
     if (this == null) return null
-    val result = ArrayList<TTarget>(this.size)
+    val result = mutableListOf<TTarget>()
     for (s in this) {
         if (cancelationToken != null && cancelationToken.isCanceled()) break
         result.add(func(s))
@@ -49,8 +49,8 @@ fun <TSource, TTarget> List<TSource>?.mapOrNull(cancelationToken: ICancelationTo
  */
 fun <T> List<T>?.takeOrNull(quantityToTake: Int, quantityToSkip: Int): List<T>? {
     if (this == null) return null
-    if (quantityToSkip >= this.size) return ArrayList(0)
-    val result = ArrayList<T>(quantityToTake)
+    if (quantityToSkip >= this.size) return listOf()
+    val result = mutableListOf<T>()
     var count = 0
     var i = quantityToSkip
     while (i < this.size && count < quantityToTake) {

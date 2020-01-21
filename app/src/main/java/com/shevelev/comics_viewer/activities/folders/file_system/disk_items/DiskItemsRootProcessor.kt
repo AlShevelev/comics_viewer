@@ -14,7 +14,7 @@ import java.util.*
 class DiskItemsRootProcessor : IDiskItemsProcessor {
     override val diskItems: List<DiskItemInfo>
         get() {
-            val result: MutableList<DiskItemInfo> = ArrayList(2)
+            val result: MutableList<DiskItemInfo> = mutableListOf()
 
             val storageState = Environment.getExternalStorageState()
             if (storageState != Environment.MEDIA_MOUNTED) {

@@ -39,7 +39,7 @@ internal class ComicsDal : IComicsDal {
      */
     override fun getComics(returnAll: Boolean): List<Comics>? {
         return try {
-            var dbResult: ArrayList<DbComics?>? = null
+            var dbResult: List<DbComics?>? = null
             dbResult = if (returnAll) Select().from(DbComics::class.java).execute() else Select().from(DbComics::class.java).where("IsHidden = ?", 0).execute() // boolean maps to integer!
             dbResult.map { Comics(it!!) }
         } catch (ex: Exception) {

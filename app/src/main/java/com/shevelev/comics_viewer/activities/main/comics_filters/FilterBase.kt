@@ -30,7 +30,7 @@ abstract class FilterBase(private val comicsSortInfo: ComicsSortInfo?, private v
     protected abstract val comicsList: List<Comics>
 
     private fun transform(source: List<Comics>): List<BookcaseComics> {
-        val result = ArrayList<BookcaseComics>(source.size)
+        val result = mutableListOf<BookcaseComics>()
         var nameCounter = 1
         for (sourceComics in source) {
             val targetComics = BookcaseComics()

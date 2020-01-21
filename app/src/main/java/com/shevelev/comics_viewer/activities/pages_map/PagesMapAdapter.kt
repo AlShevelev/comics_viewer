@@ -100,7 +100,7 @@ class PagesMapAdapter(
     }
 
     private fun getPagesForRow(rowIndex: Int): List<Page> {
-        val result = ArrayList<Page>()
+        val result = mutableListOf<Page>()
         if (pages.size > 0) {
             var firstPagesIndex = rowIndex * pagesInRow
             var count = 0

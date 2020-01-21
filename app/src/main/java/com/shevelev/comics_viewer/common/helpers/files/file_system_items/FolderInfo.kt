@@ -2,7 +2,6 @@ package com.shevelev.comics_viewer.common.helpers.files.file_system_items
 
 import android.util.Log
 import java.io.File
-import java.util.*
 
 /**
  * All data about folder
@@ -36,9 +35,9 @@ class FolderInfo(val path: String) {
                 _images = mutableListOf()
                 _files = mutableListOf()
             } else {
-                _subFolders = ArrayList(files.size)
-                _images = ArrayList(files.size)
-                _files = ArrayList(files.size)
+                _subFolders = mutableListOf()
+                _images = mutableListOf()
+                _files = mutableListOf()
             }
             var index = 0
             for (file in files!!) {
@@ -49,7 +48,7 @@ class FolderInfo(val path: String) {
                 }
                 else {
                     if (isImage(name)) {
-                        _images!!.add(DiskItemInfo(index++, DiskItemTypes.Image, file.name, file.name, path)) }
+                        _images.add(DiskItemInfo(index++, DiskItemTypes.Image, file.name, file.name, path)) }
                     else {
                         _files!!.add(DiskItemInfo(index++, DiskItemTypes.File, file.name, file.name, path))
                     }
@@ -71,7 +70,7 @@ class FolderInfo(val path: String) {
     }
 
     companion object {
-        private val _imagesExt: List<String> = ArrayList(Arrays.asList("png", "jpg", "jpeg", "gif"))
+        private val _imagesExt: List<String> = listOf("png", "jpg", "jpeg", "gif")
     }
 
     init {

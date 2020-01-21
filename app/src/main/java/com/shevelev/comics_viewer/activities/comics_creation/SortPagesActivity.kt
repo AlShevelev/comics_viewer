@@ -134,7 +134,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
          * @return
          */
         private fun createListsItems(pathToFolderk: String?): List<ListItemDrag> {
-            val result = ArrayList<ListItemDrag>()
+            val result = mutableListOf<ListItemDrag>()
             if (cancelationToken.isCanceled()) return result
             val folderInfo = FolderInfo(pathToFolder)
             val images = folderInfo.images
