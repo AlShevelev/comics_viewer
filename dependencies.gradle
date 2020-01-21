@@ -14,7 +14,7 @@ ext.app = [
 ]
 
 ext.android = [
-        app_compat : "28.0.0"
+        app_compat : "1.1.0"
 ]
 
 ext.kotlin = [

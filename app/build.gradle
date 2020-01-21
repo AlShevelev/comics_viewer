@@ -45,7 +45,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation "com.android.support:appcompat-v7:$android.app_compat"
+    implementation "androidx.appcompat:appcompat:$android.app_compat"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin.main"
@@ -53,5 +53,5 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin.coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin.coroutines"
 
-    compile files('libs/activeandroid-3.0.jar')
+    implementation files('libs/activeandroid-3.0.jar')
 }
