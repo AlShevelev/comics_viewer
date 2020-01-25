@@ -1,7 +1,7 @@
 package com.shevelev.comics_viewer.activities.folders.file_system.folders_tree
 
 import android.os.Bundle
-import com.shevelev.comics_viewer.common.threads.CancelationToken
+import com.shevelev.comics_viewer.core.cancelation.CancelationToken
 import java.util.*
 
 /**
@@ -9,11 +9,11 @@ import java.util.*
  */
 class FoldersTree {
     private var innerState: FoldersTreeInnerState?
-    private val cancelationToken: CancelationToken
+    private val cancelationToken: com.shevelev.comics_viewer.core.cancelation.CancelationToken
 
     init {
         innerState = FoldersTreeInnerState()
-        cancelationToken = CancelationToken()
+        cancelationToken = com.shevelev.comics_viewer.core.cancelation.CancelationToken()
     }
 
     fun cancel() {

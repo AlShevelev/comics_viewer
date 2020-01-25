@@ -9,7 +9,7 @@ import com.shevelev.comics_viewer.activities.main.bookshelf.BookshelfComicsInfo
 import com.shevelev.comics_viewer.activities.main.bookshelf.BookshelfListAdapter
 import com.shevelev.comics_viewer.common.custom_controls.ProgressBar
 import com.shevelev.comics_viewer.common.structs.Size
-import com.shevelev.comics_viewer.common.helpers.indexOfFirstOrNull
+import com.shevelev.comics_viewer.utils.indexOfFirstOrNull
 
 /**
  * Main view for bookshelf

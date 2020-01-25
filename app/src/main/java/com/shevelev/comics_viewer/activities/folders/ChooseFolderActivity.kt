@@ -14,14 +14,13 @@ import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.ActivityCodes
 import com.shevelev.comics_viewer.activities.ActivityResultCodes
 import com.shevelev.comics_viewer.activities.UserActionsManager
-import com.shevelev.comics_viewer.activities.folders.ChooseFolderActivity
 import com.shevelev.comics_viewer.activities.folders.file_system.disk_items.DiskItemsNormalProcessor
 import com.shevelev.comics_viewer.activities.folders.file_system.disk_items.DiskItemsRootProcessor
 import com.shevelev.comics_viewer.activities.folders.file_system.folders_tree.FoldersTree
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.DiskItemInfo
 import java.util.*
-import com.shevelev.comics_viewer.common.helpers.firstOrNull
+import com.shevelev.comics_viewer.utils.firstOrNull
 
 class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
 

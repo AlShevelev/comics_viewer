@@ -43,6 +43,9 @@ android {
 }
 
 dependencies {
+    implementation project(':core')
+    implementation project(':utils')
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation "androidx.appcompat:appcompat:$android.app_compat"

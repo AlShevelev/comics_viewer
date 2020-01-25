@@ -1,7 +1,6 @@
-package com.shevelev.comics_viewer.common.helpers
+package com.shevelev.comics_viewer.utils
 
-import com.shevelev.comics_viewer.common.threads.ICancelationTokenRead
-import java.util.*
+import com.shevelev.comics_viewer.core.cancelation.ICancelationTokenRead
 
 /**
  * Return filtered collection

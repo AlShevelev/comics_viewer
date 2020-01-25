@@ -1,9 +1,9 @@
 package com.shevelev.comics_viewer.activities.main.comics_filters
 
 import com.shevelev.comics_viewer.activities.main.ComicsSortInfo
-import com.shevelev.comics_viewer.common.helpers.filterOrNull
-import com.shevelev.comics_viewer.common.helpers.sort
-import com.shevelev.comics_viewer.common.helpers.takeOrNull
+import com.shevelev.comics_viewer.utils.filterOrNull
+import com.shevelev.comics_viewer.utils.sort
+import com.shevelev.comics_viewer.utils.takeOrNull
 import com.shevelev.comics_viewer.dal.DalFacade
 import com.shevelev.comics_viewer.dal.dto.Comics
 

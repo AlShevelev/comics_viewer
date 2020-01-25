@@ -27,11 +27,10 @@ import com.shevelev.comics_viewer.common.custom_controls.ProgressBar
 import com.shevelev.comics_viewer.common.dialogs.ZoomedPagePreviewDialog
 import com.shevelev.comics_viewer.common.helpers.ToastsHelper
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
-import com.shevelev.comics_viewer.common.helpers.filterOrNull
-import com.shevelev.comics_viewer.common.helpers.mapOrNull
+import com.shevelev.comics_viewer.utils.filterOrNull
+import com.shevelev.comics_viewer.utils.mapOrNull
 import com.shevelev.comics_viewer.common.structs.Size
-import com.shevelev.comics_viewer.common.threads.CancelationToken
-import java.util.*
+import com.shevelev.comics_viewer.core.cancelation.CancelationToken
 
 /**
  * Activity for sorting pages on comics creation
@@ -66,7 +65,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
         private var textPaint: Paint? = null
         private var isSuccess = false
         private var firstTime = false
-        private val cancelationToken = CancelationToken()
+        private val cancelationToken = com.shevelev.comics_viewer.core.cancelation.CancelationToken()
         private var listItemDragCreator: ListItemDragCreator? = null
         fun stopIfNeeded() {
             if (status != Status.FINISHED) {

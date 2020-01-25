@@ -2,7 +2,7 @@ package com.shevelev.comics_viewer.activities.folders.file_system.disk_items
 
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.DiskItemInfo
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
-import com.shevelev.comics_viewer.common.helpers.mapOrNull
+import com.shevelev.comics_viewer.utils.mapOrNull
 import java.util.*
 
 /**

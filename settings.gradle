@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':pages_curling', ':db', ':core', ':utils', ':encryption', ':key_value_storage'

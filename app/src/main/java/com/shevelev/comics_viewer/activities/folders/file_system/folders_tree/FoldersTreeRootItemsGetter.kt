@@ -1,15 +1,14 @@
 package com.shevelev.comics_viewer.activities.folders.file_system.folders_tree
 
 import android.os.Environment
-import com.shevelev.comics_viewer.common.threads.ICancelationTokenRead
+import com.shevelev.comics_viewer.core.cancelation.ICancelationTokenRead
 import java.io.File
-import java.util.*
 
 /**
  * Returns root items of folders tree
  */
 class FoldersTreeRootItemsGetter : IFoldersTreeItemsGetter {
-    override fun getSubItems(cancellationToken: ICancelationTokenRead): List<FoldersTreeItem>? {
+    override fun getSubItems(cancellationToken: com.shevelev.comics_viewer.core.cancelation.ICancelationTokenRead): List<FoldersTreeItem>? {
         val result: MutableList<FoldersTreeItem> = mutableListOf()
         val storageState = Environment.getExternalStorageState()
 

@@ -1,4 +1,4 @@
-package com.shevelev.comics_viewer.common.threads
+package com.shevelev.comics_viewer.core.cancelation
 
 import java.util.concurrent.locks.ReentrantLock
 

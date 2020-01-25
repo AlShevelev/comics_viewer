@@ -3,7 +3,7 @@ package com.shevelev.comics_viewer.activities.folders.file_system.folders_tree
 import android.os.Parcel
 import android.os.Parcelable
 import com.shevelev.comics_viewer.common.helpers.files.file_system_items.FolderInfo
-import com.shevelev.comics_viewer.common.threads.ICancelationTokenRead
+import com.shevelev.comics_viewer.core.cancelation.ICancelationTokenRead
 
 /**
  *  One item of folders' tree
@@ -17,10 +17,10 @@ class FoldersTreeItem(
     var hasImages: Boolean,
     var isActive: Boolean,
     var subItems: List<FoldersTreeItem>?,
-    val cancellationToken: ICancelationTokenRead?
+    val cancellationToken: com.shevelev.comics_viewer.core.cancelation.ICancelationTokenRead?
 ) : Parcelable {
 
-    constructor(type: FoldersTreeItemType, absolutePath: String, cancellationToken: ICancelationTokenRead):
+    constructor(type: FoldersTreeItemType, absolutePath: String, cancellationToken: com.shevelev.comics_viewer.core.cancelation.ICancelationTokenRead):
         this(type, absolutePath, false, false, null, cancellationToken)
 
     /**

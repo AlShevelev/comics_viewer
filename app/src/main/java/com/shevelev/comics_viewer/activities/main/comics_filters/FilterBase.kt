@@ -3,9 +3,8 @@ package com.shevelev.comics_viewer.activities.main.comics_filters
 import com.shevelev.comics_viewer.App.Main.getResourceString
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.ComicsSortInfo
-import com.shevelev.comics_viewer.common.helpers.sort
+import com.shevelev.comics_viewer.utils.sort
 import com.shevelev.comics_viewer.dal.dto.Comics
-import java.util.*
 
 /**
  * Base filter for comics

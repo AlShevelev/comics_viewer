@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: "$rootDir/dependencies.gradle"
+
+android {
+    compileSdkVersion sdk.target_sdk
+
+    defaultConfig {
+        minSdkVersion sdk.min_sdk
+        targetSdkVersion sdk.target_sdk
+        versionCode app.version_code
+        versionName app.version_name
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation project(':core')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin.main"
+    implementation "androidx.core:core-ktx:$kotlin.core_ktx"
+
+    implementation "androidx.appcompat:appcompat:$android.app_compat"
+
+    // Dagger
+    implementation "com.google.dagger:dagger:$di.dagger"
+
+    testImplementation "junit:junit:$tests.junit"
+    androidTestImplementation "androidx.test.ext:junit:$tests.junit_ext"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$tests.espresso"
+}
