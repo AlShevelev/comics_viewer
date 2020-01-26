@@ -45,10 +45,17 @@ android {
 dependencies {
     implementation project(':core')
     implementation project(':utils')
+    implementation project(':encryption')
+    implementation project(':key_value_storage')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation "androidx.appcompat:appcompat:$android.app_compat"
+
+    // Dagger
+    implementation "com.google.dagger:dagger:$di.dagger"
+    kapt "com.google.dagger:dagger-compiler:$di.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$di.dagger"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin.main"

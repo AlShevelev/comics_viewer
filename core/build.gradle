@@ -37,6 +37,12 @@ dependencies {
     // Dagger
     implementation "com.google.dagger:dagger:$di.dagger"
 
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin.main"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin.main"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin.coroutines"
+
     testImplementation "junit:junit:$tests.junit"
     androidTestImplementation "androidx.test.ext:junit:$tests.junit_ext"
     androidTestImplementation "androidx.test.espresso:espresso-core:$tests.espresso"
