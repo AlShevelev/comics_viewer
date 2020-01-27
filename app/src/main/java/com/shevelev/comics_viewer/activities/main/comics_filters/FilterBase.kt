@@ -1,6 +1,6 @@
 package com.shevelev.comics_viewer.activities.main.comics_filters
 
-import com.shevelev.comics_viewer.App.Main.getResourceString
+import android.content.Context
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.ComicsSortInfo
 import com.shevelev.comics_viewer.utils.sort
@@ -9,7 +9,11 @@ import com.shevelev.comics_viewer.dal.dto.Comics
 /**
  * Base filter for comics
  */
-abstract class FilterBase(private val comicsSortInfo: ComicsSortInfo?, private val isPrivateComicsHidden: Boolean) : IComicsFilter {
+abstract class FilterBase(
+    private val context: Context,
+    private val comicsSortInfo: ComicsSortInfo?,
+    private val isPrivateComicsHidden: Boolean
+) : IComicsFilter {
     override val comics: List<BookcaseComics>
         get() {
             var resultDraft = comicsList.toMutableList()
@@ -35,7 +39,13 @@ abstract class FilterBase(private val comicsSortInfo: ComicsSortInfo?, private v
             val targetComics = BookcaseComics()
             targetComics.id = sourceComics.id
             targetComics.name = sourceComics.name
-            targetComics.displayName = if (isPrivateComicsHidden and sourceComics.isPrivate) String.format(getResourceString(R.string.private_comics_title), nameCounter++) else sourceComics.name
+
+            targetComics.displayName = if (isPrivateComicsHidden and sourceComics.isPrivate) {
+                String.format(context.resources.getString(R.string.private_comics_title), nameCounter++) }
+            else {
+                sourceComics.name
+            }
+
             targetComics.coverFilename = sourceComics.coverFilename
             targetComics.isNeedShowPrivateCover = isPrivateComicsHidden and sourceComics.isPrivate
             targetComics.creationDate = sourceComics.creationDate

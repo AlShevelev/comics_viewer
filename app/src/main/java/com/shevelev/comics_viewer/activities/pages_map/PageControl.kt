@@ -40,7 +40,7 @@ class PageControl(
         if (activePageIndex == pageIndex) return false
         if (lastClickMoment == null) {
             lastClickMoment = Date()
-            ToastsHelper.Show(R.string.message_tap_again_to_change_page, ToastsHelper.Duration.Short, ToastsHelper.Position.Bottom)
+            ToastsHelper.Show(context, R.string.message_tap_again_to_change_page, ToastsHelper.Duration.Short, ToastsHelper.Position.Bottom)
         } else {
             val now = Date()
             val timeDelta = now.time - lastClickMoment!!.time
@@ -50,7 +50,7 @@ class PageControl(
                 return true
             } else {
                 lastClickMoment = Date()
-                ToastsHelper.Show(R.string.message_tap_again_to_change_page, ToastsHelper.Duration.Short, ToastsHelper.Position.Bottom)
+                ToastsHelper.Show(context, R.string.message_tap_again_to_change_page, ToastsHelper.Duration.Short, ToastsHelper.Position.Bottom)
             }
         }
         return false
@@ -65,7 +65,7 @@ class PageControl(
         val pageText = findViewById<View>(R.id.pageText) as TextView
         pageText.text = String.format(activity.resources.getString(R.string.pageTitle), number)
         val coverImage = findViewById<View>(R.id.pageImage) as ImageView
-        val bmp = BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(pageInfo.previewFileName!!))
+        val bmp = BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(context, pageInfo.previewFileName!!))
         coverImage.setImageBitmap(bmp)
         val zoomIcon = findViewById<View>(R.id.pageZoomIcon) as ImageView
         zoomIcon.setImageResource(R.drawable.ic_zoom_in_yellow_48dp)

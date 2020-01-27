@@ -1,9 +1,9 @@
 package com.shevelev.comics_viewer.common.helpers
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import com.shevelev.comics_viewer.App.Main.context
 import com.shevelev.comics_viewer.common.structs.AreaF
 import com.shevelev.comics_viewer.common.structs.Size
 
@@ -45,8 +45,8 @@ object BitmapsHelper {
         return BitmapFactory.decodeFile(fullFileName)
     }
 
-    fun loadFromRaw(rawResourceId: Int): Bitmap {
-        return BitmapFactory.decodeStream(context!!.resources.openRawResource(rawResourceId))
+    fun loadFromRaw(context: Context, rawResourceId: Int): Bitmap {
+        return BitmapFactory.decodeStream(context.resources.openRawResource(rawResourceId))
     }
 
     fun scale(bmp: Bitmap?, targetSize: Size): Bitmap {

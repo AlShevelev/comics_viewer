@@ -84,6 +84,7 @@ class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
             isInited = true
             userActionsManager!!.unlock()
             ToastsHelper.Show(
+                this@ChooseFolderActivity,
                 R.string.message_choose_folder_tip,  // Show tip about way of sorting
                 ToastsHelper.Duration.Short,
                 ToastsHelper.Position.Bottom)
@@ -141,7 +142,7 @@ class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
     private fun showDiskItems(path: String, memorizePath: Boolean) {
         pathBar = findViewById<View>(R.id.tvPath) as TextView
         setPathText(path, path != ROOT_FOLDER)
-        val diskItemsProcessor = if (path == ROOT_FOLDER) DiskItemsRootProcessor() else DiskItemsNormalProcessor(path)
+        val diskItemsProcessor = if (path == ROOT_FOLDER) DiskItemsRootProcessor(this) else DiskItemsNormalProcessor(path)
         diskItems = diskItemsProcessor.diskItems
         view!!.updateDiskItems(diskItems!!)
         if (memorizePath) foldersInDeep!!.push(path)
@@ -245,7 +246,7 @@ class ChooseFolderActivity : AppCompatActivity(), IActivityFoldersActions {
         menuManager!!.setAcceptVisible(false) // Hide accept button
         choosedDiskItem = null
         showDiskItems(diskItem!!.absolutePath, true) // show items of this folder
-        if (folderWithImages) ToastsHelper.Show(R.string.message_tap_to_preview, ToastsHelper.Duration.Short, ToastsHelper.Position.Bottom)
+        if (folderWithImages) ToastsHelper.Show(this, R.string.message_tap_to_preview, ToastsHelper.Duration.Short, ToastsHelper.Position.Bottom)
     }
 
     companion object {

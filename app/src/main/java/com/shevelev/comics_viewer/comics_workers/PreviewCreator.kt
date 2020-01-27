@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.comics_workers
 
+import android.content.Context
 import android.graphics.Bitmap
 import com.shevelev.comics_viewer.common.helpers.BitmapsHelper
 import com.shevelev.comics_viewer.common.helpers.files.AppPrivateFilesHelper
@@ -9,8 +10,10 @@ import com.shevelev.comics_viewer.common.structs.Size
 /**
  * Create preview bitmap from source image
  */
-class PreviewCreator(// Size of activity client area
-    private val clientSize: Size) : IPreviewCreator {
+class PreviewCreator(
+    private val context: Context,
+    private val clientSize: Size            // Size of activity client area
+) : IPreviewCreator {
 
     /**
      * Creates preview from source image in file
@@ -54,6 +57,7 @@ class PreviewCreator(// Size of activity client area
     override fun createPreviewAndSave(sourceFullNameOfFile: String, previewFileName: String?): Bitmap? {
         val previewBitmap = createPreview(sourceFullNameOfFile)
         return if (AppPrivateFilesHelper.createFromBitmap( // Save to disk
+                context,
                 previewFileName,
                 previewBitmap,
                 BitmapsQuality.Low,

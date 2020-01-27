@@ -1,8 +1,8 @@
 package com.shevelev.comics_viewer.activities.main
 
+import android.content.Context
 import android.view.View
 import android.widget.TextView
-import com.shevelev.comics_viewer.App.Main.context
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.comics_filters.ComicsViewMode
 
@@ -10,7 +10,11 @@ import com.shevelev.comics_viewer.activities.main.comics_filters.ComicsViewMode
  * Handle change mode of comics view
  * [viewMode] Mode changed callback
  */
-class ChangeModeHandler(var viewMode: ComicsViewMode, private val modeChanged: (ComicsViewMode) -> Unit) : IChangeModeHandlerView {
+class ChangeModeHandler(
+    context: Context,
+    var viewMode: ComicsViewMode,
+    private val modeChanged: (ComicsViewMode) -> Unit) : IChangeModeHandlerView {
+
     private val activeColor: Int
     private val inactiveColor: Int
 
@@ -36,8 +40,7 @@ class ChangeModeHandler(var viewMode: ComicsViewMode, private val modeChanged: (
     }
 
     init {
-        val resources = context!!.resources
-        activeColor = resources.getColor(R.color.bookcase_header_label_active)
-        inactiveColor = resources.getColor(R.color.bookcase_header_label_inactive)
+        activeColor = context.resources.getColor(R.color.bookcase_header_label_active)
+        inactiveColor = context.resources.getColor(R.color.bookcase_header_label_inactive)
     }
 }

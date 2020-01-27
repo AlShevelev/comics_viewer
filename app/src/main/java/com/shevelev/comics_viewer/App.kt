@@ -13,13 +13,6 @@ import com.shevelev.comics_viewer.utils.id.IdUtil
  */
 class App : Application() {
     companion object Main {
-        var context: Context? = null
-            private set
-
-        fun getResourceString(resourceId: Int): String {
-            return context!!.resources.getString(resourceId)
-        }
-
         @SuppressLint("StaticFieldLeak")
         lateinit var injections : DependencyInjectionStorage
             private set
@@ -32,6 +25,5 @@ class App : Application() {
         injections.get<AppComponent>(IdUtil.generateStringId()).inject(this)
 
         ActiveAndroid.initialize(this)
-        context = applicationContext
     }
 }

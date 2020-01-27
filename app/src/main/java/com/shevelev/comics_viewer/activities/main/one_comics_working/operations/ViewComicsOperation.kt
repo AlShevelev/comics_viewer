@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.main.one_comics_working.operations
 
+import android.content.Context
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.main.one_comics_working.IOneComicsActivity
 import com.shevelev.comics_viewer.activities.view_comics.CurlActivity
@@ -16,7 +17,7 @@ import java.util.*
 /**
  * Operation for view comics
  */
-class ViewComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(activity!!) {
+class ViewComicsOperation(private val activity: IOneComicsActivity?) : ComicsOperationBase(activity!!) {
     private enum class ComicsOpenConditions {
         CanOpen, ShowCreatePasswordDialog, ShowEnterPasswordDialog
     }
@@ -54,7 +55,7 @@ class ViewComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(a
 
     /**   */
     private fun createPasswordAndView(comicsId: Long) {
-        ToastsHelper.Show(R.string.private_comics_create_password_message, ToastsHelper.Position.Bottom)
+        ToastsHelper.Show(activity as Context, R.string.private_comics_create_password_message, ToastsHelper.Position.Bottom)
         val dialog = CreatePasswordDialog(
             context,
             { result: CreatePasswordDialog.Model ->
@@ -76,7 +77,7 @@ class ViewComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(a
                 if (result == password) {
                     OptionsFacade.ShortLivings.addOrUpdate(arrayOf(Option(OptionsKeys.PasswordEntered, OptionsValues.True)))
                     startView(comicsId)
-                } else ToastsHelper.Show(R.string.message_invalid_password, ToastsHelper.Position.Center)
+                } else ToastsHelper.Show(activity as Context, R.string.message_invalid_password, ToastsHelper.Position.Center)
             },
             { }, hint!!)
         dialog.show()

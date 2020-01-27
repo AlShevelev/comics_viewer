@@ -1,7 +1,7 @@
 package com.shevelev.comics_viewer.comics_workers
 
+import android.content.Context
 import android.graphics.*
-import com.shevelev.comics_viewer.App.Main.context
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.common.structs.Size
 
@@ -14,9 +14,9 @@ object CoverCreator {
      * @param fullNameToFile - path to file with source bitmap
      * @return
      */
-    fun create(fullNameToFile: String?, previewCreator: IPreviewCreator): Bitmap {
+    fun create(context: Context, fullNameToFile: String?, previewCreator: IPreviewCreator): Bitmap {
         val coverBitmapScaled = previewCreator.createPreview(fullNameToFile!!) // Scale source bitmap
-        return drawCover(coverBitmapScaled) // and setDiskItems cover
+        return drawCover(context, coverBitmapScaled) // and setDiskItems cover
     }
 
     /**
@@ -24,9 +24,9 @@ object CoverCreator {
      * @param sourceBitmapScaled - scaled bitmap
      * @return
      */
-    fun create(sourceBitmapScaled: Bitmap?, previewCreator: IPreviewCreator): Bitmap {
+    fun create(context: Context, sourceBitmapScaled: Bitmap?, previewCreator: IPreviewCreator): Bitmap {
         val coverBitmapScaled = previewCreator.createPreview(sourceBitmapScaled!!) // Scale source bitmap
-        return drawCover(coverBitmapScaled)
+        return drawCover(context, coverBitmapScaled)
     }
 
     /**
@@ -55,7 +55,7 @@ object CoverCreator {
      * @param bitmap bitmap to draw
      * @return
      */
-    private fun drawCover(bitmap: Bitmap): Bitmap {
+    private fun drawCover(context: Context, bitmap: Bitmap): Bitmap {
         val bitmapSize = Size(bitmap.width, bitmap.height)
         val shadowSize = calculateShadowSize(bitmapSize)
         val coverSize = calculateCoverSize(bitmap, shadowSize)
@@ -63,13 +63,13 @@ object CoverCreator {
         bmOverlay.eraseColor(Color.TRANSPARENT) // Make transparent
         val canvas = Canvas(bmOverlay)
         canvas.drawBitmap(bitmap, 0f, coverSize.height - bitmap.height.toFloat(), null) // Place bitmap on bottom
-        drawShadow(canvas, bitmapSize, coverSize, shadowSize) // Draw shadow
+        drawShadow(context, canvas, bitmapSize, coverSize, shadowSize) // Draw shadow
         return bmOverlay
     }
 
-    private fun drawShadow(canvas: Canvas, bitmapSize: Size, coverSize: Size, shadowSize: Int) {
+    private fun drawShadow(context: Context, canvas: Canvas, bitmapSize: Size, coverSize: Size, shadowSize: Int) {
         val paint = Paint() // draw shadow - in separate method
-        paint.color = context!!.resources.getColor(R.color.bookcase_cover_shadow)
+        paint.color = context.resources.getColor(R.color.bookcase_cover_shadow)
         paint.style = Paint.Style.FILL
         paint.isAntiAlias = true
         val a = Point(bitmapSize.width, coverSize.height)

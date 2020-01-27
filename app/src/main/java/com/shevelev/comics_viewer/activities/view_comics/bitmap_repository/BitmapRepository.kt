@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.view_comics.bitmap_repository
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.shevelev.comics_viewer.activities.view_comics.ResizingState
@@ -10,7 +11,7 @@ import java.util.*
 /**
  * Caches one bitmap of max size per page
  */
-class BitmapRepository(pages: List<Page>) : IBitmapRepository {
+class BitmapRepository(private val context: Context, pages: List<Page>) : IBitmapRepository {
     // list of comics pages
     private val pages : List<Page>
 
@@ -38,7 +39,7 @@ class BitmapRepository(pages: List<Page>) : IBitmapRepository {
     }
 
     private fun loadBitmap(index: Int, viewAreaWidth: Int, viewAreaHeight: Int): Bitmap {
-        val fullName = AppPrivateFilesHelper.getFullName(pages[index].fileName!!)
+        val fullName = AppPrivateFilesHelper.getFullName(context, pages[index].fileName!!)
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(fullName, options) // Read image size only

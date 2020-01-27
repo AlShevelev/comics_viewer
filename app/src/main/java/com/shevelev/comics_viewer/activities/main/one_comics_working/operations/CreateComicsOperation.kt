@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.main.one_comics_working.operations
 
+import android.content.Context
 import com.shevelev.comics_viewer.R
 import com.shevelev.comics_viewer.activities.comics_creation.ChooseComicsName
 import com.shevelev.comics_viewer.activities.comics_creation.PagesStartSorter.sort
@@ -15,7 +16,7 @@ import com.shevelev.comics_viewer.common.rhea.RheaOperationProgressInfo
 /**
  * Operation for create comics
  */
-class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase(activity!!) {
+class CreateComicsOperation(private val activity: IOneComicsActivity?) : ComicsOperationBase(activity!!) {
     private var chooseComicsName: ChooseComicsName? = null
     private var comicsCreator: ComicsCreator? = null
     fun preStart(pathToFolder: String) {
@@ -36,7 +37,7 @@ class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase
     fun complete(result: Any?) {
         uiMethods.setProgressState(false)
         if (result == null) // Shit happends
-            ToastsHelper.Show(R.string.message_cant_create_comics_title, ToastsHelper.Position.Center) else {
+            ToastsHelper.Show(activity as Context, R.string.message_cant_create_comics_title, ToastsHelper.Position.Center) else {
             uiMethods.setViewMode(ComicsViewMode.ALL)
             uiMethods.updateBooksList(result as Long?)
         }
@@ -44,7 +45,7 @@ class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase
     }
 
     fun completeWithError() {
-        ToastsHelper.Show(R.string.message_cant_create_comics_title, ToastsHelper.Position.Center)
+        ToastsHelper.Show(activity as Context, R.string.message_cant_create_comics_title, ToastsHelper.Position.Center)
     }
 
     fun updateProgress(progressInfo: RheaOperationProgressInfo) {
@@ -64,7 +65,7 @@ class CreateComicsOperation(activity: IOneComicsActivity?) : ComicsOperationBase
      */
     private fun onComicsNameChoose(name: String, isPrivateComics: Boolean, pathToFolder: String) {
         val images = sort(pathToFolder)
-        comicsCreator = ComicsCreator(ComicsCreator.tag, name, isPrivateComics, images, ScreenHelper.getClientSize(context))
+        comicsCreator = ComicsCreator(activity as Context, ComicsCreator.tag, name, isPrivateComics, images, ScreenHelper.getClientSize(context))
         start(context, pathToFolder) // Start pages sorting
     }
 }

@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.view.View
 import android.widget.Button
-import com.shevelev.comics_viewer.App.Main.context
 import com.shevelev.comics_viewer.R
 
 /**
@@ -28,7 +27,7 @@ abstract class CommonDialogBase<TI, TO> protected constructor(
         : TI
 
     protected fun getStringFromResources(resourceId: Int): String {
-        return context!!.getString(resourceId)
+        return parentActivity.getString(resourceId)
     }
 
     private fun create(): AlertDialog {

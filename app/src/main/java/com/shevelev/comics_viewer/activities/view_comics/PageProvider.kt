@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.view_comics
 
+import android.content.Context
 import android.graphics.*
 import android.util.Log
 import com.shevelev.comics_viewer.activities.view_comics.bitmap_repository.BitmapRepository
@@ -10,7 +11,7 @@ import java.io.IOException
 /**
  * Provide textures for pages and update pages
  */
-internal class PageProvider(comicsId: Long) : IPageProvider {
+internal class PageProvider(context: Context, comicsId: Long) : IPageProvider {
     private val repository: IBitmapRepository
     override val pageCount: Int
         get() = repository.pageCount
@@ -75,6 +76,7 @@ internal class PageProvider(comicsId: Long) : IPageProvider {
 
     init {
         repository = BitmapRepository(
+            context,
             DalFacade.Comics.getPages(comicsId)!!.sortedWith(Comparator { o1, o2 -> o1.order.compareTo(o2.order) }))
     }
 }

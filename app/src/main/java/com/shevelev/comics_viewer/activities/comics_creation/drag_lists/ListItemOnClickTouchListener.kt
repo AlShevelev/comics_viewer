@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.comics_creation.drag_lists
 
+import android.content.Context
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -15,7 +16,11 @@ import com.shevelev.comics_viewer.common.structs.Size
 /**
  * Show hint after click list item
  */
-class ListItemOnClickTouchListener(private val events: ISortPagesActivityItemsEvents) : OnItemClickListener, OnTouchListener {
+class ListItemOnClickTouchListener(
+    private val context: Context,
+    private val events: ISortPagesActivityItemsEvents
+) : OnItemClickListener, OnTouchListener {
+
     private var touchPos : Point? = null        // Touch position in listView
 
     override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -26,9 +31,15 @@ class ListItemOnClickTouchListener(private val events: ISortPagesActivityItemsEv
         var area = getAreaByTag(view, "zoomIcon", 0, 0)
         if (area!!.isHit(touchPos!!)) events.onZoomItem(position) else {
             area = getAreaByTag(view, "visibilityIcon", 0, 0)
-            if (area!!.isHit(touchPos!!)) events.onSetVisibilityItem(position) else ToastsHelper.Show( // Show tag with item's name
-                (parent.getItemAtPosition(position) as ListItemDrag).itemLongString,
-                ToastsHelper.Position.Bottom)
+            if (area!!.isHit(touchPos!!)) {
+                events.onSetVisibilityItem(position)
+            }
+            else {
+                ToastsHelper.Show( // Show tag with item's name
+                    context,
+                    (parent.getItemAtPosition(position) as ListItemDrag).itemLongString,
+                    ToastsHelper.Position.Bottom)
+            }
         }
         touchPos = null
     }

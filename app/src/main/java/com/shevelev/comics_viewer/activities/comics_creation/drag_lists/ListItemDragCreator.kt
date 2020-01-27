@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.comics_creation.drag_lists
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Paint
@@ -15,13 +16,17 @@ import com.shevelev.comics_viewer.common.structs.Size
 /**
  * Create ListItemDrag from DiskItemInfo
  */
-class ListItemDragCreator(private val viewSize: Size, private val textPaint: Paint) : IListItemDragCreatorImages {
+class ListItemDragCreator(
+    private val context: Context,
+    private val viewSize: Size,
+    private val textPaint: Paint
+) : IListItemDragCreatorImages {
     private companion object {
         const val ITEMS_ON_V_SCREEN = 3          // Quantity of items in vertical-oriented screen
         const val ITEMS_ON_H_SCREEN = 2           // Quantity of items in horizontal-oriented screen
     }
 
-    override val stubImage : Drawable by lazy { calculatePageImage(BitmapsHelper.loadFromRaw(R.drawable.img_unloaded_page)) }
+    override val stubImage : Drawable by lazy { calculatePageImage(BitmapsHelper.loadFromRaw(context, R.drawable.img_unloaded_page)) }
 
     /**
      * Create ListItemDrag without page image (with stub image)
@@ -47,7 +52,7 @@ class ListItemDragCreator(private val viewSize: Size, private val textPaint: Pai
         val newBitmapSize = calculateBitmapSize(Size(sourceImage.width, sourceImage.height), viewSize)
         val newBmp = Bitmap.createScaledBitmap(sourceImage, newBitmapSize.width, newBitmapSize.height, false)
 
-        return BitmapDrawable(App.context!!.resources, newBmp)
+        return BitmapDrawable(context.resources, newBmp)
     }
 
     /**

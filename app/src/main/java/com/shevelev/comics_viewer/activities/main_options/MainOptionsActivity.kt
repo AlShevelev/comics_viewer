@@ -65,7 +65,7 @@ class MainOptionsActivity : Activity() {
                 if (result == password) {
                     OptionsFacade.ShortLivings.addOrUpdate(arrayOf(Option(OptionsKeys.PasswordEntered, OptionsValues.True)))
                     setPasswordControlsVisibility()
-                } else ToastsHelper.Show(R.string.message_invalid_password, ToastsHelper.Position.Center)
+                } else ToastsHelper.Show(this, R.string.message_invalid_password, ToastsHelper.Position.Center)
             },
             { }, hint!!)
         dialog.show()

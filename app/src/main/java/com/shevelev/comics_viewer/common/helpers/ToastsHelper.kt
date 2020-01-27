@@ -1,14 +1,14 @@
 package com.shevelev.comics_viewer.common.helpers
 
+import android.content.Context
 import android.view.Gravity
 import android.widget.Toast
-import com.shevelev.comics_viewer.App.Main.context
 
 /**
  * Helper function for toasts
  */
 object ToastsHelper {
-    fun Show(text: CharSequence?, duration: Duration, position: Position?) {
+    fun Show(context: Context, text: CharSequence?, duration: Duration, position: Position?) {
         val toast = Toast.makeText(context, text, if (duration == Duration.Long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT)
         var gravity = 0
         when (position) {
@@ -20,16 +20,16 @@ object ToastsHelper {
         toast.show()
     }
 
-    fun Show(textResId: Int, duration: Duration, position: Position?) {
-        Show(context!!.resources.getText(textResId), duration, position)
+    fun Show(context: Context, textResId: Int, duration: Duration, position: Position?) {
+        Show(context, context.resources.getText(textResId), duration, position)
     }
 
-    fun Show(textResId: Int, position: Position?) {
-        Show(textResId, Duration.Short, position)
+    fun Show(context: Context, textResId: Int, position: Position?) {
+        Show(context, textResId, Duration.Short, position)
     }
 
-    fun Show(text: CharSequence?, position: Position?) {
-        Show(text, Duration.Short, position)
+    fun Show(context: Context, text: CharSequence?, position: Position?) {
+        Show(context, text, Duration.Short, position)
     }
 
     enum class Duration {

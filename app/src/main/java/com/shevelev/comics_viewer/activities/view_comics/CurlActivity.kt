@@ -32,7 +32,7 @@ class CurlActivity : Activity() {
         setContentView(R.layout.activity_view_comics)
         val currentPageIndex = DalFacade.Comics.getComicsById(comicsId)!!.lastViewedPageIndex
         curlView = findViewById<View>(R.id.curl) as CurlView
-        curlView!!.setPageProvider(PageProvider(comicsId))
+        curlView!!.setPageProvider(PageProvider(this, comicsId))
         curlView!!.initCurrentPageIndex(currentPageIndex)
         curlView!!.setBackgroundColor(-0xdfd7d0)
 

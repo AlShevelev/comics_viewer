@@ -41,11 +41,12 @@ class MainActivity : AppCompatActivity(), IRheaActivity, IOneComicsActivity {
     private var userActionsManager // For lock/unlock screen while user actions
         : UserActionsManager? = null
     private var comicsWorkingFacade: ComicsWorkingFacade? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RheaFacade.onCreate(this)
         userActionsManager = UserActionsManager(this)
-        changeModeHandler = ChangeModeHandler(ComicsViewMode.ALL) { mode: ComicsViewMode -> comicsViewModeChanged(mode) }
+        changeModeHandler = ChangeModeHandler(this, ComicsViewMode.ALL) { mode: ComicsViewMode -> comicsViewModeChanged(mode) }
         view = BookshelfView(this, R.layout.activity_main, changeModeHandler!!) { dbComicsId: Long -> onComicsChoosen(dbComicsId) }
         setContentView(view)
         comicsWorkingFacade = ComicsWorkingFacade(this)
@@ -115,6 +116,8 @@ class MainActivity : AppCompatActivity(), IRheaActivity, IOneComicsActivity {
      * Processing result from child activity
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
         if (data == null || resultCode != Activity.RESULT_OK) return
         when (requestCode) {
             ActivityCodes.CHOOSE_FOLDER -> comicsWorkingFacade!!.create.preStart(ChooseFolderActivity.parseResult(data))
@@ -140,7 +143,7 @@ class MainActivity : AppCompatActivity(), IRheaActivity, IOneComicsActivity {
      * @param idOfComicsToScroll - id of comics to scroll to (if null - without scrolling)
      */
     override fun updateBooksList(idOfComicsToScroll: Long?) {
-        val reader = BookshelfComicsReader(getFilter(changeModeHandler!!.viewMode),
+        val reader = BookshelfComicsReader(this, getFilter(this, changeModeHandler!!.viewMode),
             {
                 userActionsManager!!.lock()
                 view!!.showProgress()
@@ -152,7 +155,7 @@ class MainActivity : AppCompatActivity(), IRheaActivity, IOneComicsActivity {
                         view!!.scrollToComics(idOfComicsToScroll)
                     }
                 } else {
-                    ToastsHelper.Show(R.string.message_cant_read_comics, ToastsHelper.Position.Center)
+                    ToastsHelper.Show(this, R.string.message_cant_read_comics, ToastsHelper.Position.Center)
                 }
 
                 view!!.hideProgress()

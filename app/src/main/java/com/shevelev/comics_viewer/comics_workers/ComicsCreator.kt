@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.comics_workers
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import com.shevelev.comics_viewer.common.helpers.BitmapDarkRate
@@ -21,6 +22,7 @@ import java.util.*
  * Comics is created here (result [Long]: id of comics in db (or null if something happend))
  */
 class ComicsCreator(
+    private val context: Context,
     tag: String,
     // Name of comics
     private val name: String,
@@ -32,7 +34,7 @@ class ComicsCreator(
     clientSize: Size) : RheaOperationBase(tag) {
 
     private lateinit var diskItemsSortedIds : IntArray       // Sorted disk items
-    private val previewCreator: IPreviewCreator = PreviewCreator(clientSize)
+    private val previewCreator: IPreviewCreator = PreviewCreator(context, clientSize)
     /**
      * Set disk items before comics creation
      * @param diskItemsSortedIds - sorted disk items
@@ -65,7 +67,7 @@ class ComicsCreator(
             val previewFileName = PreviewCreator.getPreviewFileName(pageFileName)
             val previewBitmap = previewCreator.createPreviewAndSave(sourceFullName, previewFileName)
                 ?: return null // Create and save preview
-            if (!AppPrivateFilesHelper.createFromFile(sourceFullName, pageFileName)) // Copy images into private area
+            if (!AppPrivateFilesHelper.createFromFile(context, sourceFullName, pageFileName)) // Copy images into private area
                 return null
             val page = Page()
             page.fileName = pageFileName
@@ -97,9 +99,10 @@ class ComicsCreator(
         return try {
             val firstId = diskItemsSortedIds[0] // Cover is a first page
             val sourceCover = pageFilesByIds[firstId]
-            val coverBitmapScaled = CoverCreator.create(sourceCover!!.fullname, previewCreator) // Create cover
+            val coverBitmapScaled = CoverCreator.create(context, sourceCover!!.fullname, previewCreator) // Create cover
             val destinationFileName = createFileName() // Create file name for it
             AppPrivateFilesHelper.createFromBitmap(
+                context,
                 destinationFileName,
                 coverBitmapScaled,
                 BitmapsQuality.Low,

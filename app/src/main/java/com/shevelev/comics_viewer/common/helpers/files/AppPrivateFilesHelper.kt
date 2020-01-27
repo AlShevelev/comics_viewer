@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.util.Log
-import com.shevelev.comics_viewer.App.Main.context
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 import java.io.IOException
@@ -18,13 +17,13 @@ object AppPrivateFilesHelper {
      * @param destinationFileName - destination file name WITHOUT PATH
      * @return true - if file created successfully
      */
-    fun createFromFile(sourceAbsoluteFileName: String?, destinationFileName: String?): Boolean {
+    fun createFromFile(context: Context, sourceAbsoluteFileName: String?, destinationFileName: String?): Boolean {
         var sourceStream: FileReader? = null
         var destinationStream: FileOutputStream? = null
         return try {
             sourceStream = FileReader(sourceAbsoluteFileName)
             if (sourceStream.state == FileReader.State.ReadyToRead) {
-                destinationStream = context!!.openFileOutput(destinationFileName, Context.MODE_PRIVATE)
+                destinationStream = context.openFileOutput(destinationFileName, Context.MODE_PRIVATE)
                 do {
                     val readedData = sourceStream.read()
                     if (readedData.size != 0) destinationStream.write(readedData)
@@ -52,13 +51,14 @@ object AppPrivateFilesHelper {
      * @return true - if file created successfully
      */
     fun createFromBitmap(
+        context: Context,
         destinationFileName: String?,
         bitmap: Bitmap,
         quality: Int,
         compressFormat: CompressFormat?): Boolean {
         var destinationStream: FileOutputStream? = null
         return try {
-            destinationStream = context!!.openFileOutput(destinationFileName, Context.MODE_PRIVATE)
+            destinationStream = context.openFileOutput(destinationFileName, Context.MODE_PRIVATE)
             bitmap.compress(compressFormat, quality, destinationStream)
             true
         } catch (ex: Exception) {
@@ -79,11 +79,11 @@ object AppPrivateFilesHelper {
      * @return bytes of file as array or null if reas was unsuccessed
      */
     @Throws(IOException::class)
-    fun read(sourceFileName: String?): ByteArray? {
+    fun read(context: Context, sourceFileName: String?): ByteArray? {
         var sourceStream: FileReader? = null
         var destinationStream: ByteArrayOutputStream? = null
         return try {
-            sourceStream = FileReader(context!!.openFileInput(sourceFileName))
+            sourceStream = FileReader(context.openFileInput(sourceFileName))
             if (sourceStream.state == FileReader.State.ReadyToRead) {
                 destinationStream = ByteArrayOutputStream(sourceStream.size.toInt())
                 do {
@@ -107,15 +107,15 @@ object AppPrivateFilesHelper {
      * @param fileName WITHOUT path
      * @return true if file was deleted
      */
-    fun delete(fileName: String?): Boolean {
-        return context!!.deleteFile(fileName)
+    fun delete(context: Context, fileName: String?): Boolean {
+        return context.deleteFile(fileName)
     }
 
     /**
      * Get full name of file in private area
      * @param fileName - name of file without path
      */
-    fun getFullName(fileName: String): String {
-        return context!!.filesDir.absolutePath + "/" + fileName
+    fun getFullName(context: Context, fileName: String): String {
+        return context.filesDir.absolutePath + "/" + fileName
     }
 }

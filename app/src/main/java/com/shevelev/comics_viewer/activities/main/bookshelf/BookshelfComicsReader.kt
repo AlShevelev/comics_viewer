@@ -1,5 +1,6 @@
 package com.shevelev.comics_viewer.activities.main.bookshelf
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.AsyncTask
 import android.util.Log
@@ -18,6 +19,7 @@ import com.shevelev.comics_viewer.common.structs.Size
  */
 class BookshelfComicsReader(
     // source of comics
+    private val context: Context,
     private val comicsFilter: IComicsFilter,
     private val beforeExecute: () -> Unit,
     private val afterExecute: (List<BookshelfComicsInfo>?) -> Unit,
@@ -25,7 +27,7 @@ class BookshelfComicsReader(
 
     private var readComics: List<BookshelfComicsInfo>? = null
     private var privateCover: Bitmap? = null
-    private val previewCreator: IPreviewCreator = PreviewCreator(clientSize)
+    private val previewCreator: IPreviewCreator = PreviewCreator(context, clientSize)
 
     protected override fun doInBackground(vararg params: Void?): Void? {
         try {
@@ -47,10 +49,10 @@ class BookshelfComicsReader(
 
     private fun getCover(comics: BookcaseComics): Bitmap? {
         if (comics.isNeedShowPrivateCover) {
-            if (privateCover == null) privateCover = CoverCreator.create(BitmapsHelper.loadFromRaw(R.drawable.img_private_comics_cover), previewCreator)
+            if (privateCover == null) privateCover = CoverCreator.create(context, BitmapsHelper.loadFromRaw(context, R.drawable.img_private_comics_cover), previewCreator)
             return privateCover
         }
-        return BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(comics.coverFilename!!))
+        return BitmapsHelper.loadFromFile(AppPrivateFilesHelper.getFullName(context, comics.coverFilename!!))
     }
 
     override fun onPreExecute() {

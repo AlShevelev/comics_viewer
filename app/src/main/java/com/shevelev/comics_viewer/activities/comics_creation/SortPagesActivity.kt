@@ -86,7 +86,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
             val view = inflater.inflate(R.layout.sort_pages_list_item, null)
             val textView = view.findViewById<View>(R.id.rowTextView) as TextView
             textPaint = textView.paint // Paint of text area for measuring text size
-            listItemDragCreator = ListItemDragCreator(displaySize!!, textPaint!!)
+            listItemDragCreator = ListItemDragCreator(this@SortPagesActivity, displaySize!!, textPaint!!)
             thumbnailManager = ThumbnailManager(listItemDragCreator!!, { dataToReturn: Any? -> onStopProcessingThumbnails(dataToReturn) })
         }
 
@@ -117,11 +117,13 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
                 listView1!!.adapter = myItemsListAdapter1
                 listView2!!.adapter = myItemsListAdapter2
             } else ToastsHelper.Show(
+                this@SortPagesActivity,
                 R.string.message_box_no_cant_create_preview,
                 ToastsHelper.Duration.Long,
                 ToastsHelper.Position.Center)
             previewProgressBar!!.hide()
             if (firstTime) ToastsHelper.Show(
+                this@SortPagesActivity,
                 R.string.message_sorting_tip,  // Show tip about way of sorting
                 ToastsHelper.Duration.Short,
                 ToastsHelper.Position.Bottom)
@@ -164,7 +166,7 @@ class SortPagesActivity : AppCompatActivity(), ISortPagesActivityItemsEvents {
         area2!!.setOnDragListener(AreaOnDragListener( { dragInfo: ListItemDragingInfo -> onDragToArea(dragInfo) }))
         area1!!.listView = listView1
         area2!!.listView = listView2
-        val listener = ListItemOnClickTouchListener(this@SortPagesActivity)
+        val listener = ListItemOnClickTouchListener(this@SortPagesActivity, this@SortPagesActivity)
         listView1!!.onItemClickListener = listener
         listView1!!.setOnTouchListener(listener)
         listView2!!.onItemClickListener = listener
