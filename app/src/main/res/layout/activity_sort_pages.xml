@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.shevelev.comics_viewer.activities.comics_creation.SortPagesActivity"
+    tools:context=".ui.activities.comics_creation.SortPagesActivity"
     android:label="@string/app_title">
 
     <LinearLayout
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.shevelev.comics_viewer.activities.comics_creation.drag_lists.LinearLayoutDrag
+        <com.shevelev.comics_viewer.ui.activities.comics_creation.drag_lists.LinearLayoutDrag
             android:id="@+id/panelLeft"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -23,9 +23,9 @@
                 android:id="@+id/listviewLeft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </com.shevelev.comics_viewer.activities.comics_creation.drag_lists.LinearLayoutDrag>
+        </com.shevelev.comics_viewer.ui.activities.comics_creation.drag_lists.LinearLayoutDrag>
 
-        <com.shevelev.comics_viewer.activities.comics_creation.drag_lists.LinearLayoutDrag
+        <com.shevelev.comics_viewer.ui.activities.comics_creation.drag_lists.LinearLayoutDrag
             android:id="@+id/panelRight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -38,7 +38,7 @@
                 android:id="@+id/listviewRight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </com.shevelev.comics_viewer.activities.comics_creation.drag_lists.LinearLayoutDrag>
+        </com.shevelev.comics_viewer.ui.activities.comics_creation.drag_lists.LinearLayoutDrag>
     </LinearLayout>
 
     <com.shevelev.comics_viewer.common.custom_controls.ProgressBar

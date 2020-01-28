@@ -25,12 +25,18 @@ abstract class AppModuleBinds {
     abstract fun provideKeyValueStorageFacade(facade: KeyValueStorageFacadeImpl): KeyValueStorageFacade
 
     @Binds
+    @Named(Clarification.COMBINED)
     abstract fun provideKeyValueStorage(storage: CombinedStorage): Storage
 
     @Binds
     @ApplicationScope
-    @Named(Clarification.CACHE)
-    abstract fun provideCacheStorage(storage: InMemoryStorage): StorageOperationsInstance
+    @Named(Clarification.IN_MEMORY)
+    abstract fun provideCacheStorageOperationsInstance(storage: InMemoryStorage): StorageOperationsInstance
+
+    @Binds
+    @ApplicationScope
+    @Named(Clarification.IN_MEMORY)
+    abstract fun provideCacheStorage(storage: InMemoryStorage): Storage
 
     @Binds
     @Named(Clarification.PERSISTENT)

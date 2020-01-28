@@ -12,7 +12,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.shevelev.comics_viewer.activities.main.MainActivity"
+            android:name="com.shevelev.comics_viewer.ui.activities.main.MainActivity"
             android:label="@string/app_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,23 +20,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.shevelev.comics_viewer.activities.folders.ChooseFolderActivity"
+            android:name="com.shevelev.comics_viewer.ui.activities.folders.ChooseFolderActivity"
             android:label="@string/app_title">
         </activity>
         <activity
-            android:name="com.shevelev.comics_viewer.activities.comics_creation.SortPagesActivity"
+            android:name="com.shevelev.comics_viewer.ui.activities.comics_creation.SortPagesActivity"
             android:label="@string/app_title">
         </activity>
         <activity
-            android:name="com.shevelev.comics_viewer.activities.view_comics.CurlActivity"
+            android:name="com.shevelev.comics_viewer.ui.activities.view_comics.CurlActivity"
             android:label="@string/app_title">
         </activity>
         <activity
-            android:name="com.shevelev.comics_viewer.activities.main_options.MainOptionsActivity"
+            android:name="com.shevelev.comics_viewer.ui.activities.main_options.MainOptionsActivity"
             android:label="@string/app_title">
         </activity>
         <activity
-            android:name="com.shevelev.comics_viewer.activities.pages_map.PagesMapActivity"
+            android:name="com.shevelev.comics_viewer.ui.activities.pages_map.PagesMapActivity"
             android:label="@string/app_title">
         </activity>
         <meta-data
@@ -48,8 +48,7 @@
         <meta-data
             android:name="AA_MODELS"
             android:value="com.syleiman.comicsviewer.Dal.Entities.DbComics,
-                           com.syleiman.comicsviewer.Dal.Entities.DbPage,
-                           com.syleiman.comicsviewer.Dal.Entities.DbOption"/>
+                           com.syleiman.comicsviewer.Dal.Entities.DbPage"/>
     </application>
 
 </manifest>

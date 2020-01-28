@@ -13,7 +13,7 @@ import javax.inject.Named
 class CombinedStorage
 @Inject
 constructor(
-    @Named(Clarification.CACHE) private val cacheStorage: StorageOperationsInstance,
+    @Named(Clarification.IN_MEMORY) private val cacheStorage: StorageOperationsInstance,
     @Named(Clarification.PERSISTENT) private val persistentStorage: StorageOperationsInstance
 ): StorageBase() {
 

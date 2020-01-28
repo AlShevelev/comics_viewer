@@ -1,8 +1,10 @@
 package com.shevelev.comics_viewer.key_value_storage
 
+import com.shevelev.comics_viewer.core.di_scopes.Clarification
 import com.shevelev.comics_viewer.core.shared_interfaces.KeyValueStorageFacade
 import com.shevelev.comics_viewer.key_value_storage.storages.Storage
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Helper class for access to App-level private shared preferences
@@ -10,46 +12,49 @@ import javax.inject.Inject
 class KeyValueStorageFacadeImpl
 @Inject
 constructor(
-    private val keyValueStorage: Storage
+    @Named(Clarification.COMBINED)
+    private val keyValueCombinedStorage: Storage,
+    @Named(Clarification.IN_MEMORY)
+    private val keyValueInMemoryStorage: Storage
 ) : KeyValueStorageFacade {
 
     override fun saveAESCryptoKey(key: ByteArray) =
-        keyValueStorage.update {
+        keyValueCombinedStorage.update {
             it.putBytes("CRYPTO_KEY_AES", key)
         }
 
     override fun getAESCryptoKey(): ByteArray? =
-        keyValueStorage.read {
+        keyValueCombinedStorage.read {
             it.readBytes("CRYPTO_KEY_AES")
         }
 
     override fun savePasswordEntered(value: Boolean) =
-        keyValueStorage.update {
+        keyValueInMemoryStorage.update {
             it.putBoolean("PASSWORD_ENTERED", value)
         }
 
     override fun getPasswordEntered(): Boolean? =
-        keyValueStorage.read {
+        keyValueInMemoryStorage.read {
             it.readBoolean("PASSWORD_ENTERED")
         }
 
     override fun savePassword(value: String) =
-        keyValueStorage.update {
+        keyValueCombinedStorage.update {
             it.putString("PASSWORD", value)
         }
 
     override fun getPassword(): String? =
-        keyValueStorage.read {
+        keyValueCombinedStorage.read {
             it.readString("PASSWORD")
         }
 
     override fun savePasswordHint(value: String) =
-        keyValueStorage.update {
+        keyValueCombinedStorage.update {
             it.putString("PASSWORD_HINT", value)
         }
 
     override fun getPasswordHint(): String? =
-        keyValueStorage.read {
+        keyValueCombinedStorage.read {
             it.readString("PASSWORD_HINT")
         }
 }

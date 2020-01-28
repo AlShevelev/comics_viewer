@@ -5,5 +5,6 @@ object Clarification {
     const val AES = "AES"
 
     const val PERSISTENT = "PERSISTENT"
-    const val CACHE = "CACHE"
+    const val IN_MEMORY = "IN_MEMORY"
+    const val COMBINED = "COMBINED"
 }

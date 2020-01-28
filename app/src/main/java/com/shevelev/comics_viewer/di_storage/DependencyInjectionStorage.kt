@@ -4,6 +4,9 @@ import android.content.Context
 import com.shevelev.comics_viewer.di.AppComponent
 import com.shevelev.comics_viewer.di.AppModule
 import com.shevelev.comics_viewer.di.DaggerAppComponent
+import com.shevelev.comics_viewer.ui.activities.main.di.MainActivityComponent
+import com.shevelev.comics_viewer.ui.activities.main_options.di.MainOptionsActivityComponent
+import com.shevelev.comics_viewer.ui.di.UIComponent
 import com.shevelev.comics_viewer.utils.id.IdUtil
 import kotlin.reflect.KClass
 
@@ -68,6 +71,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
         @Suppress("EXPERIMENTAL_API_USAGE")
         return when (type) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
+
+            UIComponent::class -> getBase<AppComponent>().ui.build()
+
+            MainActivityComponent::class -> getBase<UIComponent>().mainActivity.build()
+
+            MainOptionsActivityComponent::class -> getBase<UIComponent>().mainOptionsActivity.build()
+
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
         } as T
     }
