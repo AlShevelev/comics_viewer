@@ -1,9 +1,7 @@
-package com.shevelev.comics_viewer.encryption.aes
+package com.shevelev.comics_viewer.encryption
 
-import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import androidx.annotation.RequiresApi
 import com.shevelev.comics_viewer.core.di_scopes.ApplicationScope
 import java.security.*
 import javax.crypto.Cipher
@@ -11,7 +9,6 @@ import javax.crypto.KeyGenerator
 import javax.inject.Inject
 
 @ApplicationScope
-@RequiresApi(Build.VERSION_CODES.M)
 class EncryptorAES
 @Inject
 constructor(): EncryptorAESBase() {

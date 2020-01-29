@@ -3,6 +3,7 @@ package com.shevelev.comics_viewer.key_value_storage.storages.shared_preferences
 import android.content.Context
 import android.util.Base64
 import com.shevelev.comics_viewer.key_value_storage.storages.StorageCommitOperations
+import com.shevelev.comics_viewer.utils.extentions.fromBytesToBase64
 
 class SharedPreferencesStorageUpdateOperations(appContext: Context, name: String): StorageCommitOperations {
     private val preferencesEditor = appContext.getSharedPreferences(name, Context.MODE_PRIVATE).edit()
@@ -34,7 +35,7 @@ class SharedPreferencesStorageUpdateOperations(appContext: Context, name: String
 
     /** Put byte[] value  */
     override fun putBytes(key: String, value: ByteArray) =
-        putString(key, Base64.encodeToString(value, Base64.DEFAULT))
+        putString(key, value.fromBytesToBase64())
     //endregion
 
     /** Complete editing  */

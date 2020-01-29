@@ -1,4 +1,4 @@
-package com.shevelev.comics_viewer.encryption.aes
+package com.shevelev.comics_viewer.encryption
 
 import com.shevelev.comics_viewer.core.shared_interfaces.Encryptor
 import com.shevelev.comics_viewer.core.shared_interfaces.EncryptorFingerprint

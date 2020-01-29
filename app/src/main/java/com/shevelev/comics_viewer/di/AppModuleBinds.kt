@@ -5,8 +5,7 @@ import com.shevelev.comics_viewer.core.di_scopes.Clarification
 import com.shevelev.comics_viewer.core.shared_interfaces.Encryptor
 import com.shevelev.comics_viewer.core.shared_interfaces.EncryptorFingerprint
 import com.shevelev.comics_viewer.core.shared_interfaces.KeyValueStorageFacade
-import com.shevelev.comics_viewer.encryption.aes.EncryptorAES
-import com.shevelev.comics_viewer.encryption.rsa.EncryptorRSA
+import com.shevelev.comics_viewer.encryption.EncryptorAES
 import com.shevelev.comics_viewer.key_value_storage.KeyValueStorageFacadeImpl
 import com.shevelev.comics_viewer.key_value_storage.storages.Storage
 import com.shevelev.comics_viewer.key_value_storage.storages.StorageOperationsInstance
@@ -45,8 +44,7 @@ abstract class AppModuleBinds {
 
     // region Encryption
     @Binds
-    @Named(Clarification.RSA)
-    abstract fun provideEncryptor(encryptor: EncryptorRSA): Encryptor
+    abstract fun provideEncryptor(encryptor: EncryptorAES): Encryptor
 
     @Binds
     abstract fun provideEncryptorForFingerprint(encryptor: EncryptorAES): EncryptorFingerprint
